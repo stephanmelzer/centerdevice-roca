@@ -1,6 +1,14 @@
+### /home/stephan/.gitignore-boilerplates/Maven.gitignore
+
+target/
+
+### /home/stephan/.gitignore-boilerplates/Java.gitignore
+
 *.class
 
 # Package Files #
 *.jar
 *.war
 *.ear
+
+
