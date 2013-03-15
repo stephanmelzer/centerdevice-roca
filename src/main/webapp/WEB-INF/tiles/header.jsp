@@ -12,7 +12,8 @@
 			<a class="brand" href="#">CenterDevice ROCA prototype</a>
 			<div class="nav-collapse collapse">
 				<ul class="nav">
-					<li class="active"><a href='<s:url value="/"></s:url>'>Home</a></li>					
+					<li class="active"><a href='<s:url value="/"></s:url>'>Home</a></li>	
+                                        <li class="active"><a href='<s:url value="/documents"></s:url>'>Documents</a></li>
 					<security:authorize access="!isAuthenticated()">
 						<li><a href='<s:url value="/signin"></s:url>'>Sign in</a></li>
 					</security:authorize>

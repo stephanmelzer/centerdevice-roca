@@ -3,10 +3,6 @@ package de.centerdevice.roca.domain;
 import java.util.ArrayList;
 import java.util.Date;
 
-/**
- *
- * @author stephan
- */
 public class Document {
 
     private String id;
