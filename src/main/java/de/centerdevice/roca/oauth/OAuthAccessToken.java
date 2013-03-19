@@ -5,18 +5,31 @@ import de.centerdevice.roca.config.CenterDeviceOAuthConfig;
 public class OAuthAccessToken {
 
     private String accessToken;
+    private boolean inDevelopmentMode;
+
+    public OAuthAccessToken() {
+        this.accessToken = "";
+        this.inDevelopmentMode = false;
+    }
 
     public String getAccessToken() {
-        if (accessToken != null) {
-            return accessToken;
+        if (inDevelopmentMode) {
+            //Only for development/testing purposes!
+            return CenterDeviceOAuthConfig.accessToken;
         }
-        
-        // if no access token was aquired before accessing protected resources,
-        // use the static one. Only for development/testing purposes!
-        return CenterDeviceOAuthConfig.accessToken;
+
+        return accessToken;
     }
 
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
+    }
+
+    public boolean isInDevelopmentMode() {
+        return inDevelopmentMode;
+    }
+
+    public void setInDevelopmentMode(boolean inDevelopmentMode) {
+        this.inDevelopmentMode = inDevelopmentMode;
     }
 }

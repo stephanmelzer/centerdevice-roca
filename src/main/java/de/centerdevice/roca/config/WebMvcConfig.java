@@ -109,6 +109,9 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     @Bean
     @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
     public OAuthAccessToken oauthAccessToken() {
-        return new OAuthAccessToken();
+        OAuthAccessToken accessToken = new OAuthAccessToken();
+        accessToken.setInDevelopmentMode(false);
+
+        return accessToken;
     }
 }
