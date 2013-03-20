@@ -1,5 +1,7 @@
 package de.centerdevice.roca.domain;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -7,10 +9,10 @@ public class Document {
 
     private String id;
     private String name;
-    private Object owner;
+    private User owner;
     private Date uploaddate;
     private String version;
-    private Object uploader;
+    private User uploader;
     private String filename;
     private int size;
     private Date versiondate;
@@ -41,16 +43,21 @@ public class Document {
         this.name = name;
     }
 
-    public Object getOwner() {
+    public User getOwner() {
         return owner;
     }
 
-    public void setOwner(Object owner) {
+    public void setOwner(User owner) {
         this.owner = owner;
     }
 
     public Date getUploaddate() {
         return uploaddate;
+    }
+
+    public String getFormatedUploaddate() {
+        DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        return df.format(uploaddate);
     }
 
     public void setUploaddate(Date uploaddate) {
@@ -65,11 +72,11 @@ public class Document {
         this.version = version;
     }
 
-    public Object getUploader() {
+    public User getUploader() {
         return uploader;
     }
 
-    public void setUploader(Object uploader) {
+    public void setUploader(User uploader) {
         this.uploader = uploader;
     }
 

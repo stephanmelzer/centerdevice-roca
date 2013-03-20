@@ -2,11 +2,7 @@ package de.centerdevice.roca.domain;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author stephan
- */
-public class Documents {
+public class DocumentList {
 
     private int hits;
     private ArrayList<Document> documents;
