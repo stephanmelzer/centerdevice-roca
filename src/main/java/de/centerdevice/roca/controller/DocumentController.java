@@ -10,6 +10,9 @@ import de.centerdevice.roca.oauth.OAuthAccessToken;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.scribe.model.OAuthRequest;
@@ -50,34 +53,27 @@ public class DocumentController {
     }
 
     @RequestMapping(value = "/document/{documentId}", method = RequestMethod.GET)
-    public ResponseEntity<byte[]> downloadDocument(@PathVariable String documentId) throws IOException {
+    public void downloadDocument(HttpServletResponse response, @PathVariable String documentId) throws IOException {
         OAuthRequest request = new OAuthRequest(Verb.GET, CenterDeviceOAuthConfig.protectedResourceUrl[1] + documentId);
 
         Token accessToken = new Token(token.getAccessToken(), CenterDeviceOAuthConfig.apiSecret);
         service.signRequest(accessToken, request);
-        Response response = request.send();
+        Response centerdeviceResponse = request.send();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", response.getHeader("Content-Disposition"));
-        headers.add("Content-Type", response.getHeader("Content-Type"));
-        headers.add("Content-Length", response.getHeader("Content-Length"));
+        response.addHeader("Content-Disposition", centerdeviceResponse.getHeader("Content-Disposition"));
+        response.addHeader("Content-Type", centerdeviceResponse.getHeader("Content-Type"));
+        response.addHeader("Content-Length", centerdeviceResponse.getHeader("Content-Length"));
 
-        InputStream stream = response.getStream();
-        byte[] body = convertInputStreamToByteArray(stream);
-
-        return new ResponseEntity<byte[]>(body, headers, HttpStatus.OK);
+        InputStream centerdeviceStream = centerdeviceResponse.getStream();
+        copyStream(centerdeviceStream, response.getOutputStream());
     }
 
-    private byte[] convertInputStreamToByteArray(InputStream stream) throws IOException {
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        int nRead;
-        byte[] data = new byte[16384];
+    private void copyStream(InputStream input, OutputStream output) throws IOException {
+        byte[] buffer = new byte[16384];
+        int bytesRead;
 
-        while ((nRead = stream.read(data, 0, data.length)) != -1) {
-            buffer.write(data, 0, nRead);
+        while ((bytesRead = input.read(buffer)) != -1) {
+            output.write(buffer, 0, bytesRead);
         }
-
-        buffer.flush();
-        return buffer.toByteArray();
     }
 }
