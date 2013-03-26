@@ -7,11 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import de.centerdevice.roca.domain.DocumentList;
 import de.centerdevice.roca.oauth.OAuthAccessToken;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -21,10 +19,8 @@ import org.scribe.model.Token;
 import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class DocumentController {
@@ -38,10 +34,7 @@ public class DocumentController {
     @RequestMapping(value = "/documents", method = RequestMethod.GET)
     public String getAllDocuments(Model model) throws IOException {
         OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
-
-        Token accessToken = new Token(token.getAccessToken(), CenterDeviceOAuthConfig.apiSecret);
-        service.signRequest(accessToken, request);
-        Response response = request.send();
+        Response response = getResource(request);
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -50,6 +43,15 @@ public class DocumentController {
         model.addAttribute("documents", docs);
 
         return "documentList";
+    }
+
+    @RequestMapping(value = "/documents", method = RequestMethod.GET, headers = {"Accept=application/json"})
+    @ResponseBody
+    public String getAllDocumentsAsJson(Model model) throws IOException {
+        OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
+        Response response = getResource(request);
+        
+        return response.getBody();
     }
 
     @RequestMapping(value = "/document/{documentId}", method = RequestMethod.GET)
@@ -75,5 +77,13 @@ public class DocumentController {
         while ((bytesRead = input.read(buffer)) != -1) {
             output.write(buffer, 0, bytesRead);
         }
+    }
+
+    private Response getResource(OAuthRequest request) {
+        Token accessToken = new Token(token.getAccessToken(), CenterDeviceOAuthConfig.apiSecret);
+        service.signRequest(accessToken, request);
+        Response response = request.send();
+
+        return response;
     }
 }
