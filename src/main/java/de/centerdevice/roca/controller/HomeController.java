@@ -16,7 +16,7 @@ public class HomeController {
     public String index() {
         if (token.getAccessToken().equals("")) {
             //no token aquired, so not logged in
-            return "homeNotLoggedIn";
+            return "welcome";
         }
 
         //return normal, logged in view
