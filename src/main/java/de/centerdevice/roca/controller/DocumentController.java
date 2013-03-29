@@ -33,6 +33,10 @@ public class DocumentController {
 
     @RequestMapping(value = "/documents", method = RequestMethod.GET)
     public String getAllDocuments(Model model) throws IOException {
+        if (isNotLoggedIn()) {
+            return "redirect:/login";
+        }
+
         OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
         Response response = getResource(request);
 
@@ -50,7 +54,7 @@ public class DocumentController {
     public String getAllDocumentsAsJson(Model model) throws IOException {
         OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
         Response response = getResource(request);
-        
+
         return response.getBody();
     }
 
@@ -85,5 +89,12 @@ public class DocumentController {
         Response response = request.send();
 
         return response;
+    }
+
+    private boolean isNotLoggedIn() {
+        if (token.getAccessToken().equals("")) {
+            return true;
+        }
+        return false;
     }
 }

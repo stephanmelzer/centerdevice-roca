@@ -15,7 +15,7 @@
                 </a>
 
                 <div class="summary">
-                    <span class="author">${document.owner.firstname} ${document.owner.lastname}</span>
+                    <span class="author">${document.owner.name}</span>
                     <time datetime="2012-11-23T13:15:00Z">${document.formatedUploaddate}</time>
                     <span class="filesize">${document.size}</span>
                 </div>
