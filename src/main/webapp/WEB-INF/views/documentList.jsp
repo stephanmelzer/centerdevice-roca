@@ -17,7 +17,7 @@
                 <div class="summary">
                     <span class="author">${document.owner.name}</span>
                     <time datetime="2012-11-23T13:15:00Z">${document.formatedUploaddate}</time>
-                    <span class="filesize">${document.size}</span>
+                    <span class="filesize">${document.formatedSize}</span>
                 </div>
             </li>
         </c:forEach>

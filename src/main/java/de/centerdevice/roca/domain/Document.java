@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import org.apache.commons.io.FileUtils;
 
 public class Document {
 
@@ -90,6 +91,10 @@ public class Document {
 
     public int getSize() {
         return size;
+    }
+
+    public String getFormatedSize() {
+        return FileUtils.byteCountToDisplaySize(size);
     }
 
     public void setSize(int size) {

@@ -51,10 +51,11 @@ public class DocumentController {
 
     @RequestMapping(value = "/documents", method = RequestMethod.GET, headers = {"Accept=application/json"})
     @ResponseBody
-    public String getAllDocumentsAsJson(Model model) throws IOException {
+    public String getAllDocumentsAsJson(Model model, HttpServletResponse httpServletResponse) throws IOException {
         OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
         Response response = getResource(request);
-
+        httpServletResponse.setStatus(response.getCode());
+        
         return response.getBody();
     }
 
@@ -66,6 +67,7 @@ public class DocumentController {
         service.signRequest(accessToken, request);
         Response centerdeviceResponse = request.send();
 
+        response.setStatus(centerdeviceResponse.getCode());
         response.addHeader("Content-Disposition", centerdeviceResponse.getHeader("Content-Disposition"));
         response.addHeader("Content-Type", centerdeviceResponse.getHeader("Content-Type"));
         response.addHeader("Content-Length", centerdeviceResponse.getHeader("Content-Length"));
