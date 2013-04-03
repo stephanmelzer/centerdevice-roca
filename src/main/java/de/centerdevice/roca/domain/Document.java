@@ -56,6 +56,11 @@ public class Document {
         return uploaddate;
     }
 
+    public String getHtml5Uploaddate() {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ" );
+        return df.format(uploaddate);
+    }
+
     public String getFormatedUploaddate() {
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         return df.format(uploaddate);
