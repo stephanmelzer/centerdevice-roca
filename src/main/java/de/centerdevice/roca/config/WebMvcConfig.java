@@ -1,5 +1,7 @@
 package de.centerdevice.roca.config;
 
+import de.centerdevice.roca.centerdevice.CenterDeviceService;
+import de.centerdevice.roca.centerdevice.CenterDeviceServiceImpl;
 import de.centerdevice.roca.oauth.CenterDeviceProvider;
 import de.centerdevice.roca.oauth.OAuthAccessToken;
 import java.util.List;
@@ -113,5 +115,10 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         accessToken.setInDevelopmentMode(false);
 
         return accessToken;
+    }
+
+    @Bean
+    public CenterDeviceService createCenterDeviceService() {
+        return new CenterDeviceServiceImpl();
     }
 }
