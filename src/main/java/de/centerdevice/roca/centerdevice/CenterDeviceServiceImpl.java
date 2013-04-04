@@ -3,12 +3,13 @@ package de.centerdevice.roca.centerdevice;
 import de.centerdevice.roca.domain.Document;
 
 import de.centerdevice.roca.config.CenterDeviceOAuthConfig;
-import de.centerdevice.roca.domain.DocumentList;
 import de.centerdevice.roca.oauth.OAuthAccessToken;
 import java.io.IOException;
 import java.util.List;
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
 import org.scribe.model.Token;
@@ -30,11 +31,13 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        //TODO: remove dependency on DocumentList. Find a way to parse only document objects.
-        //List<Document> docs = mapper.readValue(response.getBody(), new TypeReference<List<Document>>(){});
-        DocumentList docs = mapper.readValue(response.getBodyAsString(), DocumentList.class);
+        JsonNode rootNode = mapper.readValue(response.getBodyAsString(), JsonNode.class);
+        JsonNode documentNodes = rootNode.get("documents");
 
-        return docs.getDocuments();
+        List<Document> documents = mapper.readValue(documentNodes, new TypeReference<List<Document>>() {
+        });
+
+        return documents;
     }
 
     @Override

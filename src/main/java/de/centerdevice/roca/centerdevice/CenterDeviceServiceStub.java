@@ -1,14 +1,15 @@
 package de.centerdevice.roca.centerdevice;
 
 import de.centerdevice.roca.domain.Document;
-import de.centerdevice.roca.domain.DocumentList;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import javax.servlet.ServletContext;
 import org.apache.commons.io.IOUtils;
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class CenterDeviceServiceStub implements CenterDeviceService {
@@ -23,9 +24,13 @@ public class CenterDeviceServiceStub implements CenterDeviceService {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        DocumentList docs = mapper.readValue(response.getBodyAsString(), DocumentList.class);
+        JsonNode rootNode = mapper.readValue(response.getBodyAsString(), JsonNode.class);
+        JsonNode documentNodes = rootNode.get("documents");
 
-        return docs.getDocuments();
+        List<Document> documents = mapper.readValue(documentNodes, new TypeReference<List<Document>>() {
+        });
+
+        return documents;
     }
 
     @Override
