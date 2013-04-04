@@ -2,7 +2,7 @@
 
 <section class="movie-overview">
     <ul>
-        <c:forEach var="document" items="${documents.documents}">
+        <c:forEach var="document" items="${documents}">
             <li>
                 <img src="resources/img/spaltentyp_icon_documents.png"
                      height="17"
