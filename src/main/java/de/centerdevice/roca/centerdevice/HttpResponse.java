@@ -28,6 +28,10 @@ public class HttpResponse {
         return headers;
     }
 
+    public void setHeader(String key, String value) {
+        this.headers.put(key, value);
+    }
+
     public void setHeaders(Map<String, String> headers) {
         this.headers = headers;
     }
