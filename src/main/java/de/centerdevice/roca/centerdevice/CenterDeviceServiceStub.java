@@ -1,6 +1,7 @@
 package de.centerdevice.roca.centerdevice;
 
 import de.centerdevice.roca.domain.Document;
+import de.centerdevice.roca.oauth.OAuthAccessToken;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -16,6 +17,8 @@ public class CenterDeviceServiceStub implements CenterDeviceService {
 
     @Autowired
     private ServletContext servletContext;
+    @Autowired
+    private OAuthAccessToken accessToken;
 
     @Override
     public List<Document> getAllDocuments() throws IOException {
@@ -56,5 +59,30 @@ public class CenterDeviceServiceStub implements CenterDeviceService {
         responseStub.setBodyInputStream(documentFileStubStream);
 
         return responseStub;
+    }
+
+    @Override
+    public String getAuthorizationUrl() {
+        return "http://roca.local:8080/centerdevice-roca/login?code=testCode";
+    }
+
+    @Override
+    public void login(String code) {
+        accessToken = new OAuthAccessToken();
+
+        accessToken.setAccessToken("testToken");
+    }
+
+    @Override
+    public void logout() {
+        accessToken.setAccessToken("");
+    }
+
+    @Override
+    public boolean isLoggedIn() {
+        if (accessToken.getAccessToken().equals("")) {
+            return false;
+        }
+        return true;
     }
 }

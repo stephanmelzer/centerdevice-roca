@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import de.centerdevice.roca.oauth.OAuthAccessToken;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -23,14 +22,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class DocumentController {
 
     @Autowired
-    private OAuthAccessToken token;
-    @Autowired
     private CenterDeviceService centerdevice;
 
     @RequestMapping(value = "/documents", method = RequestMethod.GET)
     public String getAllDocuments(Model model) {
-        if (isNotLoggedIn()) {
-            return "redirect:/login";
+        if (centerdevice.isLoggedIn() == false) {
+            return "welcome";
         }
 
         try {
@@ -75,13 +72,6 @@ public class DocumentController {
         while ((bytesRead = input.read(buffer)) != -1) {
             output.write(buffer, 0, bytesRead);
         }
-    }
-
-    private boolean isNotLoggedIn() {
-        if (token.getAccessToken().equals("")) {
-            return true;
-        }
-        return false;
     }
 
     private void setHttpStatusCode(HttpServletResponse httpServletResponse, HttpResponse centerDeviceResponse) {

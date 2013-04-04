@@ -1,10 +1,7 @@
 package de.centerdevice.roca.controller;
 
-import de.centerdevice.roca.oauth.OAuthAccessToken;
+import de.centerdevice.roca.centerdevice.CenterDeviceService;
 import javax.servlet.http.HttpServletRequest;
-import org.scribe.model.Token;
-import org.scribe.model.Verifier;
-import org.scribe.oauth.OAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -17,25 +14,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Scope(value = "session")
 public class CenterDeviceLoginController {
 
-    private static Token EMPTY_TOKEN = null;
     @Autowired
-    private OAuthService service;
-    @Autowired
-    private OAuthAccessToken accessToken;
+    private CenterDeviceService centerDevice;
     private String externalRedirectUrl;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(@RequestParam(value = "redirect", required = false) String redirect) {
         externalRedirectUrl = redirect;
-        String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
+        String authorizationUrl = centerDevice.getAuthorizationUrl();
 
         return "redirect:" + authorizationUrl;
     }
 
     @RequestMapping(value = "/login", params = "code")
     public String loggedIn(@RequestParam("code") String code) {
-        Token token = service.getAccessToken(EMPTY_TOKEN, new Verifier(code));
-        accessToken.setAccessToken(token.getToken());
+        centerDevice.login(code);
 
         if (externalRedirectUrl != null) {
             return "redirect:" + externalRedirectUrl;
@@ -46,17 +39,15 @@ public class CenterDeviceLoginController {
 
     @RequestMapping(value = "/logout")
     public String logoutRoca(HttpServletRequest request) {
-        logout(request);
+        request.getSession().invalidate();
+        centerDevice.logout();
         return "welcome";
     }
 
     @RequestMapping(value = "/logout", headers = "Accept=application/json")
     @ResponseBody
     public void logoutSpa(HttpServletRequest request) {
-        logout(request);
-    }
-
-    private void logout(HttpServletRequest request) {
         request.getSession().invalidate();
+        centerDevice.logout();
     }
 }

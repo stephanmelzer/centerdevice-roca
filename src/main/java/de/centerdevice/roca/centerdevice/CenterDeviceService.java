@@ -11,4 +11,12 @@ public interface CenterDeviceService {
     HttpResponse getAllDocumentsRaw();
 
     HttpResponse getDocumentRaw(String uuid);
+
+    String getAuthorizationUrl();
+
+    void login(String code);
+
+    void logout();
+
+    boolean isLoggedIn();
 }
