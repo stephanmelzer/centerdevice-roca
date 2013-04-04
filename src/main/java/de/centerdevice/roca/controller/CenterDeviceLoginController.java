@@ -25,15 +25,7 @@ public class CenterDeviceLoginController {
     private String externalRedirectUrl;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String redirectToCenterDeviceLogin() {
-        String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
-
-        return "redirect:" + authorizationUrl;
-    }
-
-    //TODO: optional params and remove the above method?
-    @RequestMapping(value = "/login", method = RequestMethod.GET, params = "redirect")
-    public String externalRedirectToCenterDeviceLogin(@RequestParam("redirect") String redirect) {
+    public String login(@RequestParam(value = "redirect", required = false) String redirect) {
         externalRedirectUrl = redirect;
         String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
 

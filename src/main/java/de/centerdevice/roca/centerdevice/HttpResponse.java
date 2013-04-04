@@ -52,7 +52,8 @@ public class HttpResponse {
         while ((bytesRead = bodyInputStream.read(buffer)) != -1) {
             baos.write(buffer, 0, bytesRead);
         }
-
+        baos.flush();
+        
         return baos.toString();
     }
 }
