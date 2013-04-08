@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class GroupController extends CenterDeviceController {
 
-    @RequestMapping(value = "/group/{groupId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/group/{groupId}", method = RequestMethod.POST)
     public void joinGroup(HttpServletResponse httpServletResponse, @PathVariable String groupId) throws IOException {
         HttpResponse centerDeviceResponse = centerdevice.joinGroupRaw(groupId);
 
