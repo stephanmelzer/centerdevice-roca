@@ -29,9 +29,12 @@ public class CorsFilter extends OncePerRequestFilter {
         String[] allowedHeaders = {"accept", "origin", "x-requested-with"};
         String[] allowedMethods = {"get", "post", "put", "delete"};
 
+        String method = request.getHeader("Access-Control-Request-Method");
+        String options = request.getMethod();
+        String header = request.getHeader("Origin");
 
         if (request.getHeader("Origin") != null) {
-            if (request.getHeader("Access-Control-Request-Method") != null && "OPTIONS".equals(request.getMethod()));
+            if (request.getHeader("Access-Control-Request-Method") != null && "OPTIONS".equals(request.getMethod()))
             {
                 // the request is a CORS "pre-flight" request
                 //isPreFlightRequest = true;
@@ -51,7 +54,7 @@ public class CorsFilter extends OncePerRequestFilter {
                 }
 
                 // pre-flight header should be saved for 30 min
-                response.addHeader("Access-Control-Max-Age", "1800"); 
+                response.addHeader("Access-Control-Max-Age", "1800");
             }
 
             // always necessary

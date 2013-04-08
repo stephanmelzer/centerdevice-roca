@@ -18,6 +18,11 @@ public class CenterDeviceServiceStub implements CenterDeviceService {
     private ServletContext servletContext;
     @Autowired
     private OAuthAccessToken accessToken;
+    private HttpResponse httpResponse;
+
+    public void setHttpResponse(HttpResponse httpResponse) {
+        this.httpResponse = httpResponse;
+    }
 
     @Override
     public List<Document> getAllDocuments() throws IOException {
@@ -87,6 +92,10 @@ public class CenterDeviceServiceStub implements CenterDeviceService {
 
     @Override
     public HttpResponse joinGroupRaw(String groupId) {
+        if (this.httpResponse != null) {
+            return this.httpResponse;
+        }
+
         HttpResponse responseStub = new HttpResponse();
         responseStub.setStatusCode(204);
 
@@ -95,8 +104,13 @@ public class CenterDeviceServiceStub implements CenterDeviceService {
 
     @Override
     public HttpResponse getAllGroupsRaw() {
+        if (this.httpResponse != null) {
+            return this.httpResponse;
+        }
+
         HttpResponse responseStub = new HttpResponse();
         responseStub.setStatusCode(200);
+        responseStub.setHeader("Content-Type", "application/json");
 
         InputStream jsonStreamStub = servletContext.getResourceAsStream("/WEB-INF/stubs/groups.json");
         responseStub.setBodyInputStream(jsonStreamStub);
