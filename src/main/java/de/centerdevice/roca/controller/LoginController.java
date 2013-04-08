@@ -1,8 +1,6 @@
 package de.centerdevice.roca.controller;
 
-import de.centerdevice.roca.centerdevice.CenterDeviceService;
 import javax.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,23 +10,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @Scope(value = "session")
-public class CenterDeviceLoginController {
+public class LoginController extends CenterDeviceController {
 
-    @Autowired
-    private CenterDeviceService centerDevice;
     private String externalRedirectUrl;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(@RequestParam(value = "redirect", required = false) String redirect) {
         externalRedirectUrl = redirect;
-        String authorizationUrl = centerDevice.getAuthorizationUrl();
+        String authorizationUrl = centerdevice.getAuthorizationUrl();
 
         return "redirect:" + authorizationUrl;
     }
 
     @RequestMapping(value = "/login", params = "code")
     public String loggedIn(@RequestParam("code") String code) {
-        centerDevice.login(code);
+        centerdevice.login(code);
 
         if (externalRedirectUrl != null) {
             return "redirect:" + externalRedirectUrl;
@@ -40,7 +36,7 @@ public class CenterDeviceLoginController {
     @RequestMapping(value = "/logout")
     public String logoutRoca(HttpServletRequest request) {
         request.getSession().invalidate();
-        centerDevice.logout();
+        centerdevice.logout();
         return "welcome";
     }
 
@@ -48,6 +44,6 @@ public class CenterDeviceLoginController {
     @ResponseBody
     public void logoutSpa(HttpServletRequest request) {
         request.getSession().invalidate();
-        centerDevice.logout();
+        centerdevice.logout();
     }
 }

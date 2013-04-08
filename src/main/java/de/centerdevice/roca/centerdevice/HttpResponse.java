@@ -1,5 +1,6 @@
 package de.centerdevice.roca.centerdevice;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +15,7 @@ public class HttpResponse {
 
     public HttpResponse() {
         this.headers = new HashMap<String, String>();
+        this.bodyInputStream = new ByteArrayInputStream("Default InputStream".getBytes());
     }
 
     public int getStatusCode() {
@@ -53,7 +55,7 @@ public class HttpResponse {
             baos.write(buffer, 0, bytesRead);
         }
         baos.flush();
-        
+
         return baos.toString();
     }
 }
