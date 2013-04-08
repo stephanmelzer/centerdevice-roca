@@ -2,6 +2,7 @@ package de.centerdevice.roca.config;
 
 import de.centerdevice.roca.centerdevice.CenterDeviceService;
 import de.centerdevice.roca.centerdevice.CenterDeviceServiceImpl;
+import de.centerdevice.roca.centerdevice.CenterDeviceServiceStub;
 import de.centerdevice.roca.oauth.CenterDeviceProvider;
 import de.centerdevice.roca.oauth.OAuthAccessToken;
 import java.util.List;
@@ -24,6 +25,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import org.springframework.web.servlet.view.tiles3.*;
 
 @Configuration
+@ComponentScan(basePackages = {"de.centerdevice.roca"})
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     private static final String MESSAGE_SOURCE = "/WEB-INF/i18n/messages";
@@ -119,6 +121,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     @Bean
     public CenterDeviceService createCenterDeviceService() {
-        return new CenterDeviceServiceImpl();
+//        return new CenterDeviceServiceImpl();
+        return new CenterDeviceServiceStub();
     }
 }
