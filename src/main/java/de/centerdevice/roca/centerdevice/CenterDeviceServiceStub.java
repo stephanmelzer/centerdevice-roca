@@ -24,6 +24,10 @@ public class CenterDeviceServiceStub implements CenterDeviceService {
         this.httpResponse = httpResponse;
     }
 
+    public void setAccessToken(OAuthAccessToken accessToken) {
+        this.accessToken = accessToken;
+    }
+
     @Override
     public List<Document> getAllDocuments() throws IOException {
         HttpResponse response = getAllDocumentsRaw();
@@ -53,6 +57,10 @@ public class CenterDeviceServiceStub implements CenterDeviceService {
 
     @Override
     public HttpResponse getDocumentRaw(String uuid) {
+        if (this.httpResponse != null) {
+            return this.httpResponse;
+        }
+        
         InputStream documentFileStreamStub = servletContext.getResourceAsStream("/WEB-INF/stubs/documentFileStub.txt");
 
         HttpResponse responseStub = new HttpResponse();
