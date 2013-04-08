@@ -1,6 +1,5 @@
 package de.centerdevice.roca.controller;
 
-import de.centerdevice.roca.centerdevice.CenterDeviceService;
 import de.centerdevice.roca.centerdevice.HttpResponse;
 import de.centerdevice.roca.domain.Document;
 import org.springframework.stereotype.Controller;
@@ -8,21 +7,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
-public class DocumentController {
-
-    @Autowired
-    private CenterDeviceService centerdevice;
+public class DocumentController extends CenterDeviceController {
 
     @RequestMapping(value = "/documents", method = RequestMethod.GET)
     public String getAllDocuments(Model model) {
@@ -63,27 +55,5 @@ public class DocumentController {
 
         httpServletResponse.getOutputStream().flush();
         centerDeviceResponse.getBodyInputStream().close();
-    }
-
-    private void copyStream(OutputStream output, InputStream input) throws IOException {
-        byte[] buffer = new byte[16384];
-        int bytesRead;
-
-        while ((bytesRead = input.read(buffer)) != -1) {
-            output.write(buffer, 0, bytesRead);
-        }
-    }
-
-    private void setHttpStatusCode(HttpServletResponse httpServletResponse, HttpResponse centerDeviceResponse) {
-        httpServletResponse.setStatus(centerDeviceResponse.getStatusCode());
-    }
-
-    private void setHttpHeaders(HttpServletResponse httpServletResponse, HttpResponse centerDeviceResponse) {
-        Map<String, String> headers = centerDeviceResponse.getHeaders();
-        for (String header : headers.keySet()) {
-            if (httpServletResponse.containsHeader(header) == false) {
-                httpServletResponse.addHeader(header, headers.get(header));
-            }
-        }
     }
 }

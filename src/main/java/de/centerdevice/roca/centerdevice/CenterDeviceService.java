@@ -6,6 +6,14 @@ import java.util.List;
 
 public interface CenterDeviceService {
 
+    //Login
+    void login(String code);
+
+    void logout();
+
+    boolean isLoggedIn();
+
+    // Documents
     List<Document> getAllDocuments() throws IOException;
 
     HttpResponse getAllDocumentsRaw();
@@ -14,9 +22,8 @@ public interface CenterDeviceService {
 
     String getAuthorizationUrl();
 
-    void login(String code);
+    // Groups
+    public HttpResponse getAllGroupsRaw();
 
-    void logout();
-
-    boolean isLoggedIn();
+    public HttpResponse joinGroupRaw(String groupId);
 }
