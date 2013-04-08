@@ -36,12 +36,15 @@ public class GroupControllerTest {
     @Autowired
     private ServletContext servletContext;
     @Autowired
-    private CenterDeviceService centerDeviceStub;
+    private CenterDeviceService centerDeviceService;
+    private CenterDeviceServiceStub centerDeviceServiceStub;
     private MockMvc mockMvc;
 
     @Before
     public void setUp() {
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
+        centerDeviceServiceStub = (CenterDeviceServiceStub) centerDeviceService;
+        centerDeviceServiceStub.setHttpResponse(null);
     }
 
     @Test
@@ -69,9 +72,7 @@ public class GroupControllerTest {
         String groupId = "123";
         HttpResponse responseStub = new HttpResponse();
         responseStub.setStatusCode(404);
-
-        CenterDeviceServiceStub serviceStub = (CenterDeviceServiceStub) centerDeviceStub;
-        serviceStub.setHttpResponse(responseStub);
+        centerDeviceServiceStub.setHttpResponse(responseStub);
 
         mockMvc.perform(post("/group/" + groupId))
                 .andExpect(status().isNotFound())
