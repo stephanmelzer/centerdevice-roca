@@ -40,7 +40,6 @@ public class DocumentController extends CenterDeviceController {
         setHttpHeaders(httpServletResponse, centerDeviceResponse);
         copyStream(httpServletResponse.getOutputStream(), centerDeviceResponse.getBodyInputStream());
 
-        httpServletResponse.getOutputStream().flush();
         centerDeviceResponse.getBodyInputStream().close();
 
     }
@@ -53,7 +52,6 @@ public class DocumentController extends CenterDeviceController {
         setHttpHeaders(httpServletResponse, centerDeviceResponse);
         copyStream(httpServletResponse.getOutputStream(), centerDeviceResponse.getBodyInputStream());
 
-        httpServletResponse.getOutputStream().flush();
         centerDeviceResponse.getBodyInputStream().close();
     }
 }

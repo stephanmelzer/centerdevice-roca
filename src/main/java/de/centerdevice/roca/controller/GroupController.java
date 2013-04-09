@@ -27,8 +27,6 @@ public class GroupController extends CenterDeviceController {
         setHttpHeaders(httpServletResponse, centerDeviceResponse);
         copyStream(httpServletResponse.getOutputStream(), centerDeviceResponse.getBodyInputStream());
 
-
-        httpServletResponse.getOutputStream().flush();
         centerDeviceResponse.getBodyInputStream().close();
     }
 }
