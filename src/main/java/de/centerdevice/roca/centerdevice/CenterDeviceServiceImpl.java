@@ -26,8 +26,8 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
     private OAuthAccessToken accessToken;
 
     @Override
-    public List<Document> getAllDocuments() throws IOException {
-        HttpResponse response = getAllDocumentsRaw();
+    public List<Document> getDocuments(String searchQuery) throws IOException {
+        HttpResponse response = getDocumentsRaw(searchQuery);
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -42,8 +42,9 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
     }
 
     @Override
-    public HttpResponse getAllDocumentsRaw() {
-        OAuthRequest request = new OAuthRequest(Verb.GET, CenterDeviceOAuthConfig.protectedResourceUrl[0]);
+    public HttpResponse getDocumentsRaw(String searchQuery) {
+        OAuthRequest request = new OAuthRequest(Verb.GET, CenterDeviceOAuthConfig.protectedResourceUrl[0] + "?" + searchQuery);
+        System.out.println(accessToken.getAccessToken());
         return getResource(request);
     }
 

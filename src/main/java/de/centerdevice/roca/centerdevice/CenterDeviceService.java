@@ -14,9 +14,9 @@ public interface CenterDeviceService {
     boolean isLoggedIn();
 
     // Documents
-    List<Document> getAllDocuments() throws IOException;
+    List<Document> getDocuments(String searchQuery) throws IOException;
 
-    HttpResponse getAllDocumentsRaw();
+    HttpResponse getDocumentsRaw(String searchQuery);
 
     HttpResponse getDocumentRaw(String uuid);
 

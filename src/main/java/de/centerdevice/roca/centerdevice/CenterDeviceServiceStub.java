@@ -29,8 +29,8 @@ public class CenterDeviceServiceStub implements CenterDeviceService {
     }
 
     @Override
-    public List<Document> getAllDocuments() throws IOException {
-        HttpResponse response = getAllDocumentsRaw();
+    public List<Document> getDocuments(String searchQuery) throws IOException {
+        HttpResponse response = getDocumentsRaw(searchQuery);
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -45,7 +45,7 @@ public class CenterDeviceServiceStub implements CenterDeviceService {
     }
 
     @Override
-    public HttpResponse getAllDocumentsRaw() {
+    public HttpResponse getDocumentsRaw(String searchQuery) {
         HttpResponse responseStub = new HttpResponse();
         responseStub.setStatusCode(200);
 

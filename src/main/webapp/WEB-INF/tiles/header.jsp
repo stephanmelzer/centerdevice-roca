@@ -10,8 +10,9 @@
         <img src="resources/img/cd_logo.png" alt="centerdevice Logo">
     </h1>
 
-    <form class="form-search">
+    <form class="form-search" action="documents" method="GET">
         <input type="search"
+               name="q"
                class="input-xlarge search-query"
                placeholder="Enter search query"
                autofocus>
