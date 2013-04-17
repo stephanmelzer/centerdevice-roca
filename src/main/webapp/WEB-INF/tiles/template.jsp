@@ -14,15 +14,20 @@
         <!-- Header content -->
         <tiles:insertAttribute name="header"  defaultValue="" />
 
-        <!-- Right Menu (User's Groups) content -->
-        <tiles:insertAttribute name="menuRight"  defaultValue="" />
-        
-        <!-- Page content -->
-        <div class="main" role="main">
-            <tiles:insertAttribute name="body" defaultValue="" />
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <!-- Left Menu (User's Groups) content -->
+                <div class = "span2 menuLeft" >
+                    <tiles:insertAttribute name="menuLeft"  defaultValue="" />
+                </div>
+                <!-- Page content -->
+                <div class="span10" role="main">
+                    <tiles:insertAttribute name="body" defaultValue="" />
+                </div>
+            </div>
         </div>
-        
         <!-- End of page content -->
         <tiles:insertAttribute name="footer"  defaultValue="" />
+
     </body>
 </html>

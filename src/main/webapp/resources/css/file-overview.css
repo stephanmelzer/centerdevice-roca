@@ -1,1 +1,48 @@
-.movie-overview{margin-top:30px}.movie-overview ul{list-style-type:none;margin:0}.movie-overview li{position:relative;margin-bottom:5px;padding-top:5px;border-top:1px solid #cdcdcd}.movie-overview li:first-child{border-top:none}.movie-overview .icon{position:absolute;top:15px}.movie-overview a,.movie-overview .summary{margin-left:30px}.movie-overview a{font-weight:bold;color:#666}.movie-overview .summary{font-size:0.8em}.movie-overview .summary>*{margin-left:3px;margin-right:3px}.movie-overview .author{font-weight:bold}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/stephan\/Dokumente\/Projekte\/Bachelorarbeit\/src\/centerdevice-spa\/src\/assets\/sass\/file-overview\.scss}line{font-family:\000033}}
+.movie-overview {
+  border-top-style: solid;
+  border-top-color: #d9d9d9;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/stephan\/Dokumente\/Projekte\/Bachelorarbeit\/src\/centerdevice-spa\/src\/assets\/sass\/file-overview\.scss}line{font-family:\000036}}
+.movie-overview ul {
+  list-style-type: none;
+  margin: 0;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/stephan\/Dokumente\/Projekte\/Bachelorarbeit\/src\/centerdevice-spa\/src\/assets\/sass\/file-overview\.scss}line{font-family:\0000311}}
+.movie-overview li {
+  position: relative;
+  margin-bottom: 5px;
+  padding-top: 5px;
+  border-top: 1px solid #cdcdcd;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/stephan\/Dokumente\/Projekte\/Bachelorarbeit\/src\/centerdevice-spa\/src\/assets\/sass\/file-overview\.scss}line{font-family:\0000318}}
+.movie-overview li:first-child {
+  border-top: none;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/stephan\/Dokumente\/Projekte\/Bachelorarbeit\/src\/centerdevice-spa\/src\/assets\/sass\/file-overview\.scss}line{font-family:\0000323}}
+.movie-overview .icon {
+  position: absolute;
+  top: 15px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/stephan\/Dokumente\/Projekte\/Bachelorarbeit\/src\/centerdevice-spa\/src\/assets\/sass\/file-overview\.scss}line{font-family:\0000328}}
+.movie-overview a, .movie-overview .summary {
+  margin-left: 30px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/stephan\/Dokumente\/Projekte\/Bachelorarbeit\/src\/centerdevice-spa\/src\/assets\/sass\/file-overview\.scss}line{font-family:\0000332}}
+.movie-overview a {
+  font-weight: bold;
+  color: #666666;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/stephan\/Dokumente\/Projekte\/Bachelorarbeit\/src\/centerdevice-spa\/src\/assets\/sass\/file-overview\.scss}line{font-family:\0000337}}
+.movie-overview .summary {
+  font-size: 0.8em;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/stephan\/Dokumente\/Projekte\/Bachelorarbeit\/src\/centerdevice-spa\/src\/assets\/sass\/file-overview\.scss}line{font-family:\0000340}}
+.movie-overview .summary > * {
+  margin-left: 3px;
+  margin-right: 3px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/stephan\/Dokumente\/Projekte\/Bachelorarbeit\/src\/centerdevice-spa\/src\/assets\/sass\/file-overview\.scss}line{font-family:\0000346}}
+.movie-overview .author {
+  font-weight: bold;
+}

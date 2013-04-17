@@ -1,0 +1,21 @@
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/stephan\/Dokumente\/Projekte\/Bachelorarbeit\/src\/centerdevice-spa\/src\/assets\/sass\/menuLeft\.scss}line{font-family:\000033}}
+.menuLeft {
+  border-top-style: solid;
+  border-top-color: #d9d9d9;
+  float: left;
+  font-weight: bold;
+  font-size: 12px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/stephan\/Dokumente\/Projekte\/Bachelorarbeit\/src\/centerdevice-spa\/src\/assets\/sass\/menuLeft\.scss}line{font-family:\0000311}}
+.menuLeft a {
+  color: #666666;
+  text-decoration: none;
+  background-image: url("../img/group-symbols.png");
+  background-position: 0px -34px;
+  background-repeat: no-repeat;
+  padding-left: 25px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/stephan\/Dokumente\/Projekte\/Bachelorarbeit\/src\/centerdevice-spa\/src\/assets\/sass\/menuLeft\.scss}line{font-family:\0000322}}
+.menuLeft a.group {
+  background-position: 0px -816px;
+}

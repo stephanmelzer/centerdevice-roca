@@ -5,7 +5,7 @@
 <tiles-definitions>
     <definition name="default" template="/WEB-INF/tiles/template.jsp" preparer="UserGroupsViewPreparer">
         <put-attribute name="header" value="/WEB-INF/tiles/header.jsp" />
-        <put-attribute name="menuRight" value="/WEB-INF/tiles/menuLeft.jsp" />
+        <put-attribute name="menuLeft" value="/WEB-INF/tiles/menuLeft.jsp" />
         <put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp" />
     </definition>
 </tiles-definitions>
