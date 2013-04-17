@@ -1,0 +1,41 @@
+{
+	"id": "99abe6f0-bd34-4418-af7f-caf2d6185db2",
+	"first-name": "Stephan",
+	"last-name": "Melzer",
+	"name": "Stephan Melzer",
+	"email": "stephan.melzer@codecentric.de",
+	"tenant": "codecentric",
+	"tenant-id": "f9249d3e-2b61-4ca8-adca-2cdd37022959",
+	"admin": "false",
+	"external": "false",
+	"locale": {
+		"language": "de",
+		"country": "DE"
+	},
+	"notifications": {
+		"email": {
+			"new-comment": false,
+			"new-version": false,
+			"new-sharing": false,
+			"daily-summary": false
+		}
+	},
+	"default-view-mode": "LIST",
+	"list-data": [],
+	"group-data": [{
+		"id": "3f4b9ba1-f897-4ffb-9db8-73921995d732",
+		"name": "Dev-Friday",
+		"color": 20,
+		"type": "public",
+		"admin": false
+	}, {
+		"id": "be5b5f6a-b433-4c70-91c0-3ca1c933ab1f",
+		"name": "DZone Refcardz",
+		"color": 20,
+		"type": "public",
+		"admin": false
+	}, {
+		"id": "ALL_USERS_f9249d3e-2b61-4ca8-adca-2cdd37022959",
+		"type": "public"
+	}]
+}

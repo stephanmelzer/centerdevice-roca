@@ -1,5 +1,6 @@
 package de.centerdevice.roca.domain;
 
+import java.util.List;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 public class User {
@@ -10,6 +11,8 @@ public class User {
     @JsonProperty("last-name")
     private String lastname;
     private String name;
+    @JsonProperty("group-data")
+    private List<Group> groups;
 
     public String getEmail() {
         return email;
@@ -41,5 +44,13 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
     }
 }

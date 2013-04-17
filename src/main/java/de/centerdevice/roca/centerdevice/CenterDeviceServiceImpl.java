@@ -3,6 +3,7 @@ package de.centerdevice.roca.centerdevice;
 import de.centerdevice.roca.domain.Document;
 
 import de.centerdevice.roca.config.CenterDeviceOAuthConfig;
+import de.centerdevice.roca.domain.User;
 import de.centerdevice.roca.oauth.OAuthAccessToken;
 import java.io.IOException;
 import java.util.List;
@@ -44,7 +45,6 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
     @Override
     public HttpResponse getDocumentsRaw(String searchQuery) {
         OAuthRequest request = new OAuthRequest(Verb.GET, CenterDeviceOAuthConfig.protectedResourceUrl[0] + "?" + searchQuery);
-        System.out.println(accessToken.getAccessToken());
         return getResource(request);
     }
 
@@ -106,5 +106,22 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
     public HttpResponse getAllGroupsRaw() {
         OAuthRequest centerDeviceRequest = new OAuthRequest(Verb.GET, CenterDeviceOAuthConfig.protectedResourceUrl[3]);
         return getResource(centerDeviceRequest);
+    }
+
+    @Override
+    public User getUserInformation(String searchQuery) throws IOException {
+        HttpResponse response = getUserInformationRaw(searchQuery);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        User user = mapper.readValue(response.getBodyAsString(), User.class);
+
+        return user;
+    }
+
+    @Override
+    public HttpResponse getUserInformationRaw(String searchQuery) {
+        OAuthRequest request = new OAuthRequest(Verb.GET, CenterDeviceOAuthConfig.protectedResourceUrl[4] + "?" + searchQuery);
+        return getResource(request);
     }
 }

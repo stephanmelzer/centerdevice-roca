@@ -11,11 +11,17 @@
         <link rel="stylesheet" href="resources/css/app.css">
     </head>
     <body>
+        <!-- Header content -->
         <tiles:insertAttribute name="header"  defaultValue="" />
+
+        <!-- Right Menu (User's Groups) content -->
+        <tiles:insertAttribute name="menuRight"  defaultValue="" />
+        
         <!-- Page content -->
         <div class="main" role="main">
             <tiles:insertAttribute name="body" defaultValue="" />
         </div>
+        
         <!-- End of page content -->
         <tiles:insertAttribute name="footer"  defaultValue="" />
     </body>
