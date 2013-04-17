@@ -3,9 +3,11 @@ package de.centerdevice.roca.config;
 import de.centerdevice.roca.centerdevice.CenterDeviceService;
 import de.centerdevice.roca.centerdevice.CenterDeviceServiceImpl;
 import de.centerdevice.roca.centerdevice.CenterDeviceServiceStub;
+import de.centerdevice.roca.view.UserGroupsViewPreparer;
 import de.centerdevice.roca.oauth.CenterDeviceProvider;
 import de.centerdevice.roca.oauth.OAuthAccessToken;
 import java.util.List;
+import org.apache.tiles.preparer.ViewPreparer;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.oauth.OAuthService;
 
@@ -59,7 +61,13 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     public TilesConfigurer configureTilesConfigurer() {
         TilesConfigurer configurer = new TilesConfigurer();
         configurer.setDefinitions(new String[]{TILES, VIEWS});
+        configurer.setPreparerFactoryClass(SpringBeanPreparerFactory.class);
         return configurer;
+    }
+
+    @Bean(name = "UserGroupsViewPreparer")
+    public ViewPreparer userGroupsViewPreparer() {
+        return new UserGroupsViewPreparer();
     }
 
     @Override

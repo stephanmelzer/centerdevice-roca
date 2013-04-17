@@ -1,6 +1,7 @@
 package de.centerdevice.roca.centerdevice;
 
 import de.centerdevice.roca.domain.Document;
+import de.centerdevice.roca.domain.User;
 import de.centerdevice.roca.oauth.OAuthAccessToken;
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,7 +61,7 @@ public class CenterDeviceServiceStub implements CenterDeviceService {
         if (this.httpResponse != null) {
             return this.httpResponse;
         }
-        
+
         InputStream documentFileStreamStub = servletContext.getResourceAsStream("/WEB-INF/stubs/documentFileStub.txt");
 
         HttpResponse responseStub = new HttpResponse();
@@ -121,6 +122,33 @@ public class CenterDeviceServiceStub implements CenterDeviceService {
         responseStub.setHeader("Content-Type", "application/json");
 
         InputStream jsonStreamStub = servletContext.getResourceAsStream("/WEB-INF/stubs/groups.json");
+        responseStub.setBodyInputStream(jsonStreamStub);
+
+        return responseStub;
+    }
+
+    @Override
+    public User getUserInformation(String searchQuery) throws IOException {
+        HttpResponse response = getUserInformationRaw(searchQuery);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        User user = mapper.readValue(response.getBodyAsString(), User.class);
+
+        return user;
+    }
+
+    @Override
+    public HttpResponse getUserInformationRaw(String searchQuery) {
+        if (this.httpResponse != null) {
+            return this.httpResponse;
+        }
+
+        HttpResponse responseStub = new HttpResponse();
+        responseStub.setStatusCode(200);
+        responseStub.setHeader("Content-Type", "application/json");
+
+        InputStream jsonStreamStub = servletContext.getResourceAsStream("/WEB-INF/stubs/user-information.json");
         responseStub.setBodyInputStream(jsonStreamStub);
 
         return responseStub;

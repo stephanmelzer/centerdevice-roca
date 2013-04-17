@@ -1,6 +1,7 @@
 package de.centerdevice.roca.centerdevice;
 
 import de.centerdevice.roca.domain.Document;
+import de.centerdevice.roca.domain.User;
 import java.io.IOException;
 import java.util.List;
 
@@ -26,4 +27,9 @@ public interface CenterDeviceService {
     public HttpResponse getAllGroupsRaw();
 
     public HttpResponse joinGroupRaw(String groupId);
+
+    // User information
+    public User getUserInformation(String searchQuery) throws IOException;
+
+    public HttpResponse getUserInformationRaw(String searchQuery);
 }
