@@ -5,6 +5,8 @@
 <div class="banner"></div>
 
 <header>
+    <a href="logout">Logout</a>
+
     <h1>
         centerdevice - structure without directories
         <img src="resources/img/cd_logo.png" alt="centerdevice Logo">

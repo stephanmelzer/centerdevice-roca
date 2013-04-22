@@ -17,7 +17,7 @@
         <org.slf4j-version>1.7.2</org.slf4j-version>
         <ch.qos.logback-version>1.0.7</ch.qos.logback-version>
         <org.apache.tiles-version>3.0.1</org.apache.tiles-version>
-        <netbeans.hint.deploy.server>gfv3ee6</netbeans.hint.deploy.server>
+        <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
     </properties>
     <repositories>
         <repository>

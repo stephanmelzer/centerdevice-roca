@@ -1,5 +1,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
+<form action="documents" method="POST" enctype="multipart/form-data">
+    <input type="file" name="document">
+    <button type="submit" class="btn btn-inverse">Upload File</button>
+</form>
+
 <section class="movie-overview">
     <ul>
         <c:forEach var="document" items="${documents}">

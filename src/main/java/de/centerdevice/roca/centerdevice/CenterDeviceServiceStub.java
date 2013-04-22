@@ -153,4 +153,16 @@ public class CenterDeviceServiceStub implements CenterDeviceService {
 
         return responseStub;
     }
+
+    @Override
+    public HttpResponse uploadDocumentRaw(HttpRequest clientRequest) {
+        HttpResponse responseStub = new HttpResponse();
+        responseStub.setStatusCode(201);
+        responseStub.setHeader("Location", "centerdevice.de/document/123-abc");
+
+        InputStream jsonStreamStub = servletContext.getResourceAsStream("/WEB-INF/stubs/fileUploadSuccess.json");
+        responseStub.setBodyInputStream(jsonStreamStub);
+
+        return responseStub;
+    }
 }

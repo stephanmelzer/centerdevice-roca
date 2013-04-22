@@ -1,5 +1,6 @@
 package de.centerdevice.roca.controller;
 
+import de.centerdevice.roca.centerdevice.HttpRequest;
 import de.centerdevice.roca.centerdevice.HttpResponse;
 import de.centerdevice.roca.domain.Document;
 import org.springframework.stereotype.Controller;
@@ -7,9 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -63,5 +66,32 @@ public class DocumentController extends CenterDeviceController {
         searchQuery = (searchQuery == null) ? "" : searchQuery;
 
         return searchQuery;
+    }
+
+    @RequestMapping(value = "/documents", method = RequestMethod.POST, headers = {"Accept=application/json"})
+    public void uploadFile(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException, ServletException {
+        InputStream inputStream = httpServletRequest.getInputStream();
+        HttpRequest clientRequest = new HttpRequest();
+        clientRequest.setBodyInputStream(inputStream);
+        String contentTypeHeader = "Content-Type";
+        clientRequest.setHeader(contentTypeHeader, httpServletRequest.getHeader(contentTypeHeader));
+
+        HttpResponse centerdeviceResponse = centerdevice.uploadDocumentRaw(clientRequest);
+        httpServletResponse.setStatus(centerdeviceResponse.getStatusCode());
+
+        copyStream(httpServletResponse.getOutputStream(), centerdeviceResponse.getBodyInputStream());
+    }
+
+    @RequestMapping(value = "/documents", method = RequestMethod.POST)
+    public String uploadFileJson(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException, ServletException {
+        InputStream inputStream = httpServletRequest.getInputStream();
+        HttpRequest clientRequest = new HttpRequest();
+        clientRequest.setBodyInputStream(inputStream);
+        String contentTypeHeader = "Content-Type";
+        clientRequest.setHeader(contentTypeHeader, httpServletRequest.getHeader(contentTypeHeader));
+
+        centerdevice.uploadDocumentRaw(clientRequest);
+
+        return "redirect:documents";
     }
 }

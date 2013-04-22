@@ -23,13 +23,15 @@ public interface CenterDeviceService {
 
     String getAuthorizationUrl();
 
-    // Groups
-    public HttpResponse getAllGroupsRaw();
+    HttpResponse uploadDocumentRaw(HttpRequest clientRequest);
 
-    public HttpResponse joinGroupRaw(String groupId);
+    // Groups
+    HttpResponse getAllGroupsRaw();
+
+    HttpResponse joinGroupRaw(String groupId);
 
     // User information
-    public User getUserInformation(String searchQuery) throws IOException;
+    User getUserInformation(String searchQuery) throws IOException;
 
-    public HttpResponse getUserInformationRaw(String searchQuery);
+    HttpResponse getUserInformationRaw(String searchQuery);
 }
