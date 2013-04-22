@@ -20,4 +20,10 @@
                autofocus>
         <button type="submit" class="btn btn-inverse">Search</button>
     </form>
+
+    <form action="documents" method="POST" enctype="multipart/form-data">
+        <input type="file" name="document">
+        <button type="submit" class="btn btn-inverse">Upload File</button>
+    </form>
+    
 </header>
