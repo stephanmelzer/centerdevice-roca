@@ -1,0 +1,7 @@
+[{
+	"characteristic": "without-version",
+	"location": "<BASE-URL>/document/<document-id>"
+}, {
+	"characteristic": "with-version",
+	"location": "<BASE-URL>/document/<document-id>;version=<version>"
+}]
