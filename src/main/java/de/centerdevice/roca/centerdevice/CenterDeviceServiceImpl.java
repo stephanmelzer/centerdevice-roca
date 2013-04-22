@@ -1,6 +1,5 @@
 package de.centerdevice.roca.centerdevice;
 
-import com.sun.xml.internal.messaging.saaj.util.TeeInputStream;
 import de.centerdevice.roca.domain.Document;
 
 import de.centerdevice.roca.config.CenterDeviceOAuthConfig;
@@ -16,6 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.io.input.TeeInputStream;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
