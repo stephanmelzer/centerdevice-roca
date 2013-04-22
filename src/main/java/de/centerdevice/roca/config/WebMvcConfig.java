@@ -1,12 +1,10 @@
 package de.centerdevice.roca.config;
 
 import de.centerdevice.roca.centerdevice.CenterDeviceService;
-import de.centerdevice.roca.centerdevice.CenterDeviceServiceImpl;
 import de.centerdevice.roca.centerdevice.CenterDeviceServiceStub;
 import de.centerdevice.roca.view.UserGroupsViewPreparer;
 import de.centerdevice.roca.oauth.CenterDeviceProvider;
 import de.centerdevice.roca.oauth.OAuthAccessToken;
-import java.util.List;
 import org.apache.tiles.preparer.ViewPreparer;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.oauth.OAuthService;
@@ -14,14 +12,8 @@ import org.scribe.oauth.OAuthService;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.core.MethodParameter;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import org.springframework.web.bind.support.WebDataBinderFactory;
-import org.springframework.web.context.request.NativeWebRequest;
-import org.springframework.web.method.support.*;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.servlet.view.tiles3.*;
@@ -85,24 +77,6 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
-    }
-
-    @Override
-    protected void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-        argumentResolvers.add(new UserDetailsHandlerMethodArgumentResolver());
-    }
-
-    // custom argument resolver inner classes
-    private static class UserDetailsHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
-
-        public boolean supportsParameter(MethodParameter parameter) {
-            return UserDetails.class.isAssignableFrom(parameter.getParameterType());
-        }
-
-        public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-            Authentication auth = (Authentication) webRequest.getUserPrincipal();
-            return auth != null && auth.getPrincipal() instanceof UserDetails ? auth.getPrincipal() : null;
-        }
     }
 
     @Bean
