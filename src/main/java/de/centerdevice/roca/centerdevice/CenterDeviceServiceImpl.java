@@ -136,7 +136,7 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
 
             OutputStream centerdeviceStream = connection.getOutputStream();
 
-            int countedBytes = countBytes(clientRequest.getBodyInputStream(), centerdeviceStream, boundary);
+            int countedBytes = countContentSize(clientRequest.getBodyInputStream(), centerdeviceStream, boundary);
 
             //write meta data
             String contentDispositionHeader = "Content-Disposition: form-data; name=\"metadata\"\r\n";
@@ -195,66 +195,42 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
         return boundary;
     }
 
-    public int countBytes(InputStream inputStream, OutputStream outputStream, String boundaryString) throws IOException {
+    public int countContentSize(InputStream inputStream, OutputStream outputStream, String boundary) throws IOException {
         InputStream tis = (new TeeInputStream(inputStream, outputStream));
 
         //looking for first boundary
-
-        int readByte;
-        int boundaryIndex = 0;
-        boolean isBoundary = false;
-        byte[] boundary = ("--" + boundaryString).getBytes();;
+        byte[] bytePattern = ("--" + boundary).getBytes();
 
         //check for starting boundary otherwise through exception, because boundary musst come first?!
 
-        while ((readByte = tis.read()) != -1) {
-            // check if the current byte is the same as in the boundary array
-            // and the index length is not bigger than the boundary array length
-            if (boundaryIndex < boundary.length && boundary[boundaryIndex] == readByte) {
-                boundaryIndex++;
-                if (boundaryIndex == (boundary.length)) {
-                    isBoundary = true;
-                    break;
-                }
-            }
-        }
+        countBytes(tis, bytePattern);
 
-        // here comes the header...
-        byte[] headerEnd = "\r\n\r\n".getBytes();
-        boolean isHeaderEnd = false;
-        boundaryIndex = 0;
-        while ((readByte = tis.read()) != -1) {
-            if (boundaryIndex < headerEnd.length && headerEnd[boundaryIndex] == readByte) {
-                boundaryIndex++;
-                if (boundaryIndex == (headerEnd.length)) {
-                    isHeaderEnd = true;
-                    break;
-                }
-            } else {
-                //the current byte does not match
-                boundaryIndex = 0;
-            }
-        }
+        // header
+        bytePattern = "\r\n\r\n".getBytes();
+        countBytes(tis, bytePattern);
 
+        //content
+        bytePattern = ("\r\n--" + boundary).getBytes();
+        int countedBytes = countBytes(tis, bytePattern);
 
-        //now the content
-        boolean isContent = false;
+        return countedBytes;
+    }
+
+    private int countBytes(InputStream inputStream, byte[] bytePattern) throws IOException {
+        int readByte = 0;
         int countedBytes = 0;
-        boundaryIndex = 0;
-
+        int boundaryIndex = 0;
         boolean countCurrentByte = false;
 
-        byte[] endBoundary = ("\r\n--" + boundaryString).getBytes();
-
-        while ((readByte = tis.read()) != -1) {
-            if (boundaryIndex < endBoundary.length) {
+        while ((readByte = inputStream.read()) != -1) {
+            if (boundaryIndex < bytePattern.length) {
 
 
-                if (boundaryIndex > 0 && endBoundary[boundaryIndex] != readByte) {
+                if (boundaryIndex > 0 && bytePattern[boundaryIndex] != readByte) {
                     countCurrentByte = true;
                 }
 
-                if (endBoundary[boundaryIndex] != readByte) {
+                if (bytePattern[boundaryIndex] != readByte) {
                     //reset index and try again
                     //the current byte does not match
                     countedBytes = boundaryIndex > 0 ? countedBytes + boundaryIndex : countedBytes + 1;
@@ -263,12 +239,11 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
                 }
 
                 //check if current part of boundary is the same as the current read byte.
-                if (endBoundary[boundaryIndex] == readByte) {
+                if (bytePattern[boundaryIndex] == readByte) {
                     boundaryIndex++;
 
                     //check if the boundary index is at the end of the boundary array.
-                    if (boundaryIndex == (endBoundary.length)) {
-                        isContent = true;
+                    if (boundaryIndex == (bytePattern.length)) {
                         break;
                     }
 
@@ -278,7 +253,7 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
                 }
             }
         }
-
+        
         return countedBytes;
     }
 }
