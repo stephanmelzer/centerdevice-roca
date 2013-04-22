@@ -132,39 +132,28 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
             connection.setDoOutput(true);
             connection.connect();
 
-            //get boundary
-            String contentType = clientRequest.getHeaders().get("Content-Type");
-            String[] contentTypeValues = contentType.split(";");
-            String boundary = "";
+            String boundary = extractBoundary(clientRequest);
 
-            for (String value : contentTypeValues) {
-                if (value.contains("boundary")) {
-                    boundary = value.split("=")[1];
-                    break;
-                }
-            }
-            //write existing content to outputstream and count bytes for filesize
+            OutputStream centerdeviceStream = connection.getOutputStream();
 
-            OutputStream outputStream = connection.getOutputStream();
+            int countedBytes = countBytes(clientRequest.getBodyInputStream(), centerdeviceStream, boundary);
 
-            int countedBytes = countBytes(clientRequest.getBodyInputStream(), outputStream, boundary);
-
-            //write meta data (temporay solution)
+            //write meta data
             String contentDispositionHeader = "Content-Disposition: form-data; name=\"metadata\"\r\n";
             String contentTypeHeader = "Content-Type: application/json\r\n\r\n";
             String metaDataJson = "{\"metadata\":{\"document\":{\"size\":" + countedBytes + "}}}\r\n";
 
-            outputStream.write(("\r\n--" + boundary).getBytes());
-            outputStream.write("\r\n".getBytes());
-            outputStream.write(contentDispositionHeader.getBytes());
-            outputStream.write(contentTypeHeader.getBytes());
-            outputStream.write(metaDataJson.getBytes());
-            outputStream.write(("--" + boundary + "--").getBytes());
-            outputStream.write("\r\n".getBytes());
+            centerdeviceStream.write(("\r\n--" + boundary).getBytes());
+            centerdeviceStream.write("\r\n".getBytes());
+            centerdeviceStream.write(contentDispositionHeader.getBytes());
+            centerdeviceStream.write(contentTypeHeader.getBytes());
+            centerdeviceStream.write(metaDataJson.getBytes());
+            centerdeviceStream.write(("--" + boundary + "--").getBytes());
+            centerdeviceStream.write("\r\n".getBytes());
 
             String responseMessage = connection.getResponseMessage();
             centerdeviceResponse.setStatusCode(connection.getResponseCode());
-            centerdeviceResponse.setBodyInputStream(connection.getErrorStream());
+            centerdeviceResponse.setBodyInputStream(connection.getInputStream());
         } catch (MalformedURLException ex) {
             Logger.getLogger(CenterDeviceServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -173,7 +162,6 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
 
         return centerdeviceResponse;
     }
-
 
     @Override
     public User getUserInformation(String searchQuery) throws IOException {
@@ -190,6 +178,21 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
     public HttpResponse getUserInformationRaw(String searchQuery) {
         OAuthRequest request = new OAuthRequest(Verb.GET, CenterDeviceOAuthConfig.protectedResourceUrl[4] + "?" + searchQuery);
         return getResource(request);
+    }
+
+    private String extractBoundary(HttpRequest clientRequest) {
+        String contentType = clientRequest.getHeaders().get("Content-Type");
+        String[] contentTypeValues = contentType.split(";");
+        String boundary = "";
+
+        for (String value : contentTypeValues) {
+            if (value.contains("boundary")) {
+                boundary = value.split("=")[1];
+                break;
+            }
+        }
+
+        return boundary;
     }
 
     public int countBytes(InputStream inputStream, OutputStream outputStream, String boundaryString) throws IOException {
