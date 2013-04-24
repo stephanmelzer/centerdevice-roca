@@ -253,7 +253,14 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
                 }
             }
         }
-        
+
         return countedBytes;
+    }
+
+    @Override
+    public HttpResponse getDocumentAsFlash(String uuid) {
+        OAuthRequest centerDeviceRequest = new OAuthRequest(Verb.GET, CenterDeviceOAuthConfig.protectedResourceUrl[1] + uuid);
+        centerDeviceRequest.addHeader("Accept", "application/x-shockwave-flash");
+        return getResource(centerDeviceRequest);
     }
 }

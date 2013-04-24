@@ -21,6 +21,8 @@ public interface CenterDeviceService {
 
     HttpResponse getDocumentRaw(String uuid);
 
+    HttpResponse getDocumentAsFlash(String uuid);
+
     String getAuthorizationUrl();
 
     HttpResponse uploadDocumentRaw(HttpRequest clientRequest);

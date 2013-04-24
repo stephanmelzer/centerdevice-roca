@@ -1,6 +1,7 @@
 package de.centerdevice.roca.config;
 
 import de.centerdevice.roca.centerdevice.CenterDeviceService;
+import de.centerdevice.roca.centerdevice.CenterDeviceServiceImpl;
 import de.centerdevice.roca.centerdevice.CenterDeviceServiceStub;
 import de.centerdevice.roca.view.UserGroupsViewPreparer;
 import de.centerdevice.roca.oauth.CenterDeviceProvider;

@@ -165,4 +165,9 @@ public class CenterDeviceServiceStub implements CenterDeviceService {
 
         return responseStub;
     }
+
+    @Override
+    public HttpResponse getDocumentAsFlash(String documentId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
