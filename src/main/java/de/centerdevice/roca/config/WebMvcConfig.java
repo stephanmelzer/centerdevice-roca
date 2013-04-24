@@ -6,6 +6,7 @@ import de.centerdevice.roca.centerdevice.CenterDeviceServiceStub;
 import de.centerdevice.roca.view.UserGroupsViewPreparer;
 import de.centerdevice.roca.oauth.CenterDeviceProvider;
 import de.centerdevice.roca.oauth.OAuthAccessToken;
+import de.centerdevice.roca.view.MobileClientViewPreparer;
 import org.apache.tiles.preparer.ViewPreparer;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.oauth.OAuthService;
@@ -61,6 +62,11 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     @Bean(name = "UserGroupsViewPreparer")
     public ViewPreparer userGroupsViewPreparer() {
         return new UserGroupsViewPreparer();
+    }
+
+    @Bean(name = "MobileClientViewPreparer")
+    public ViewPreparer mobileClientViewPreparer() {
+        return new MobileClientViewPreparer();
     }
 
     @Override
