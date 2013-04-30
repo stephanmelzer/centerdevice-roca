@@ -11,4 +11,11 @@ target/
 *.war
 *.ear
 
+### /home/stephan/.gitignore-boilerplates/Global/Linux.gitignore
+
+.*
+!.gitignore
+!.travis.yml
+*~
+
 

@@ -1,0 +1,19 @@
+env:
+  global:
+  - secure: |-
+      T/HuDeOdREj+VO5zyst5RUadmaJUlvrfn1+63m++kd5xRcoUHeNUPS80+zGt
+      8O5sukOLLs5bloXZDv+KMDO2dsrBEZ5jWOax9XG5SbRFAiwFoxoodWeSW9HY
+      OqUCgn8p2F/rl9t7woMvt0lqCXi9Ei1i4bgc6hsZ3iQTw3PDpeI=
+language: java
+jdk:
+  - openjdk7
+  - oraclejdk7
+after_success:
+- wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+- echo "Host heroku.com" >> ~/.ssh/config
+- echo "   StrictHostKeyChecking no" >> ~/.ssh/config
+- echo "   CheckHostIP no" >> ~/.ssh/config
+- echo "   UserKnownHostsFile=/dev/null" >> ~/.ssh/config
+- heroku keys:clear
+- yes | heroku keys:add
+- if [[ "$TRAVIS_BRANCH" == "master" ]]; then git remote add heroku git@heroku.com:centerdevice-roca.git; yes | git push heroku master;fi
