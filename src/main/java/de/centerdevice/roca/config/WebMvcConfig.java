@@ -110,7 +110,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     @Bean
     public CenterDeviceService createCenterDeviceService() {
-//        return new CenterDeviceServiceImpl();
-        return new CenterDeviceServiceStub();
+        return new CenterDeviceServiceImpl();
+//        return new CenterDeviceServiceStub();
     }
 }
