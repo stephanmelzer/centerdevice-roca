@@ -1,13 +1,13 @@
+---
 env:
   global:
   - secure: |-
-      T/HuDeOdREj+VO5zyst5RUadmaJUlvrfn1+63m++kd5xRcoUHeNUPS80+zGt
-      8O5sukOLLs5bloXZDv+KMDO2dsrBEZ5jWOax9XG5SbRFAiwFoxoodWeSW9HY
-      OqUCgn8p2F/rl9t7woMvt0lqCXi9Ei1i4bgc6hsZ3iQTw3PDpeI=
+      dwzELGWFxyL4O2IutQ6oUciDk03QrhkoS8CP9CKgY4RkJJ/SWGEIT4CNaxRP
+      aUCGYyB8g2y/qsX2AUY20s15288kEPSH3qRdNKnSjoo4xBtqMllgnMOUgB57
+      ZC5GaYxrAlJ0gfAoftB0KfibmrK1GiYJFmYQfa08gi2Vg7LvJwo=
 language: java
 jdk:
-  - openjdk7
-  - oraclejdk7
+- openjdk7
 after_success:
 - wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
 - echo "Host heroku.com" >> ~/.ssh/config
@@ -16,4 +16,5 @@ after_success:
 - echo "   UserKnownHostsFile=/dev/null" >> ~/.ssh/config
 - heroku keys:clear
 - yes | heroku keys:add
-- if [[ "$TRAVIS_BRANCH" == "master" ]]; then git remote add heroku git@heroku.com:centerdevice-roca.git; yes | git push heroku master;fi
+- if [[ "$TRAVIS_BRANCH" == "master" ]]; then git remote add heroku git@heroku.com:centerdevice-roca.git;
+  yes | git push heroku master;fi
