@@ -17,6 +17,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
  */
 public class CorsFilter extends OncePerRequestFilter {
 
+    private String[] allowedHosts = {"http://spa.local:8000",
+        "http://localhost:8000",
+        "http://centerdevice-spa.herokuapp.com"};
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -29,13 +33,13 @@ public class CorsFilter extends OncePerRequestFilter {
         String[] allowedHeaders = {"accept", "origin", "x-requested-with"};
         String[] allowedMethods = {"get", "post", "put", "delete"};
 
+
         String method = request.getHeader("Access-Control-Request-Method");
         String options = request.getMethod();
-        String header = request.getHeader("Origin");
+        String originHeader = request.getHeader("Origin");
 
-        if (request.getHeader("Origin") != null) {
-            if (request.getHeader("Access-Control-Request-Method") != null && "OPTIONS".equals(request.getMethod()))
-            {
+        if (originHeader != null && isAllowedHost(originHeader)) {
+            if (request.getHeader("Access-Control-Request-Method") != null && "OPTIONS".equals(request.getMethod())) {
                 // the request is a CORS "pre-flight" request
                 //isPreFlightRequest = true;
 
@@ -58,7 +62,7 @@ public class CorsFilter extends OncePerRequestFilter {
             }
 
             // always necessary
-            response.addHeader("Access-Control-Allow-Origin", "http://spa.local:8000");
+            response.addHeader("Access-Control-Allow-Origin", originHeader);
             // Cookies are allowed
             response.addHeader("Access-Control-Allow-Credentials", "true");
 
@@ -69,6 +73,16 @@ public class CorsFilter extends OncePerRequestFilter {
 
         // if preflight return immediately a response ?!
         filterChain.doFilter(request, response);
+    }
+
+    private boolean isAllowedHost(String host) {
+        for (String allowedHost : allowedHosts) {
+            if (allowedHost.toLowerCase().equals(host.toLowerCase())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     //TODO: refactor to commonn method, because hasValidRequestMethods does the same
