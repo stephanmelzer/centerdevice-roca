@@ -96,7 +96,6 @@ public class GroupControllerTest {
         @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
         public OAuthAccessToken oauthAccessToken() {
             OAuthAccessToken accessToken = new OAuthAccessToken();
-            accessToken.setInDevelopmentMode(false);
 
             return accessToken;
         }

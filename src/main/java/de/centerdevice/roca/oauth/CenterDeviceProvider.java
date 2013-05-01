@@ -11,16 +11,23 @@ import org.scribe.utils.OAuthEncoder;
 
 public class CenterDeviceProvider extends DefaultApi20 {
 
-    private static final String AUTHORIZE_URL = CenterDeviceOAuthConfig.autorizeUrl;
+    private CenterDeviceOAuthConfig config;
 
-    @Override
-    public String getAccessTokenEndpoint() {
-        return CenterDeviceOAuthConfig.tokenEndpoint;
+    public CenterDeviceProvider() {
+        super();
+        config = new CenterDeviceOAuthConfig();
     }
 
     @Override
-    public String getAuthorizationUrl(OAuthConfig config) {
-        return String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
+    public String getAccessTokenEndpoint() {
+        return config.getTokenEndpoint();
+    }
+
+    @Override
+    public String getAuthorizationUrl(OAuthConfig authConfig) {
+        return String.format(config.getAuthorizeUrl(),
+                authConfig.getApiKey(),
+                OAuthEncoder.encode(authConfig.getCallback()));
     }
 
     @Override

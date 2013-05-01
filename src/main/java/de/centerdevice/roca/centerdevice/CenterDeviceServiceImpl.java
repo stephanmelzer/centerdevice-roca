@@ -34,6 +34,8 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
     private OAuthService service;
     @Autowired
     private OAuthAccessToken accessToken;
+    @Autowired
+    private CenterDeviceOAuthConfig config;
 
     @Override
     public List<Document> getDocuments(String searchQuery) throws IOException {
@@ -56,18 +58,18 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
 
     @Override
     public HttpResponse getDocumentsRaw(String searchQuery) {
-        OAuthRequest request = new OAuthRequest(Verb.GET, CenterDeviceOAuthConfig.protectedResourceUrl[0] + "?" + searchQuery);
+        OAuthRequest request = new OAuthRequest(Verb.GET, config.getBaseUrl() + "/documents?" + searchQuery);
         return getResource(request);
     }
 
     @Override
     public HttpResponse getDocumentRaw(String uuid) {
-        OAuthRequest centerDeviceRequest = new OAuthRequest(Verb.GET, CenterDeviceOAuthConfig.protectedResourceUrl[1] + uuid);
+        OAuthRequest centerDeviceRequest = new OAuthRequest(Verb.GET, config.getBaseUrl() + "/document/" + uuid);
         return getResource(centerDeviceRequest);
     }
 
     private HttpResponse getResource(OAuthRequest centerDeviceRequest) {
-        Token token = new Token(accessToken.getAccessToken(), CenterDeviceOAuthConfig.apiSecret);
+        Token token = new Token(accessToken.getAccessToken(), config.getApiSecret());
         service.signRequest(token, centerDeviceRequest);
         Response centerDeviceResponse = centerDeviceRequest.send();
 
@@ -106,7 +108,7 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
 
     @Override
     public HttpResponse joinGroupRaw(String groupId) {
-        OAuthRequest centerDeviceRequest = new OAuthRequest(Verb.POST, CenterDeviceOAuthConfig.protectedResourceUrl[2] + groupId);
+        OAuthRequest centerDeviceRequest = new OAuthRequest(Verb.POST, config.getBaseUrl() + "/group/" + groupId);
 
         centerDeviceRequest.addHeader("Content-Type", "application/json; charset=UTF-8");
         centerDeviceRequest.addPayload("{'action' : 'join-group'}");
@@ -116,7 +118,7 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
 
     @Override
     public HttpResponse getAllGroupsRaw() {
-        OAuthRequest centerDeviceRequest = new OAuthRequest(Verb.GET, CenterDeviceOAuthConfig.protectedResourceUrl[3]);
+        OAuthRequest centerDeviceRequest = new OAuthRequest(Verb.GET, config.getBaseUrl() + "/group/");
         return getResource(centerDeviceRequest);
     }
 
@@ -124,7 +126,7 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
     public HttpResponse uploadDocumentRaw(HttpRequest clientRequest) {
         HttpResponse centerdeviceResponse = new HttpResponse();
         try {
-            URL url = new URL(CenterDeviceOAuthConfig.protectedResourceUrl[0]);
+            URL url = new URL(config.getBaseUrl() + "/documents");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.addRequestProperty("Authorization", "Bearer " + accessToken.getAccessToken());
@@ -176,7 +178,7 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
 
     @Override
     public HttpResponse getUserInformationRaw(String searchQuery) {
-        OAuthRequest request = new OAuthRequest(Verb.GET, CenterDeviceOAuthConfig.protectedResourceUrl[4] + "?" + searchQuery);
+        OAuthRequest request = new OAuthRequest(Verb.GET, config.getBaseUrl() + "/user?" + searchQuery);
         return getResource(request);
     }
 
@@ -259,7 +261,7 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
 
     @Override
     public HttpResponse getDocumentAsFlash(String uuid) {
-        OAuthRequest centerDeviceRequest = new OAuthRequest(Verb.GET, CenterDeviceOAuthConfig.protectedResourceUrl[1] + uuid);
+        OAuthRequest centerDeviceRequest = new OAuthRequest(Verb.GET, config.getBaseUrl() + "/document/" + uuid);
         centerDeviceRequest.addHeader("Accept", "application/x-shockwave-flash");
         return getResource(centerDeviceRequest);
     }

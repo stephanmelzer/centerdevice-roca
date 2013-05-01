@@ -1,21 +1,22 @@
 package de.centerdevice.roca.oauth;
 
 import de.centerdevice.roca.config.CenterDeviceOAuthConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class OAuthAccessToken {
 
     private String accessToken;
-    private boolean inDevelopmentMode;
+    @Autowired
+    private CenterDeviceOAuthConfig config;
 
     public OAuthAccessToken() {
         this.accessToken = "";
-        this.inDevelopmentMode = false;
     }
 
     public String getAccessToken() {
-        if (inDevelopmentMode) {
+        if (config.getAccessToken() != null) {
             //Only for development/testing purposes!
-            return CenterDeviceOAuthConfig.accessToken;
+            return config.getAccessToken();
         }
 
         return accessToken;
@@ -23,13 +24,5 @@ public class OAuthAccessToken {
 
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
-    }
-
-    public boolean isInDevelopmentMode() {
-        return inDevelopmentMode;
-    }
-
-    public void setInDevelopmentMode(boolean inDevelopmentMode) {
-        this.inDevelopmentMode = inDevelopmentMode;
     }
 }

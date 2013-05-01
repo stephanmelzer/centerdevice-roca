@@ -1,13 +1,37 @@
 package de.centerdevice.roca.config;
 
-//Temporary config for testing purposes
 public class CenterDeviceOAuthConfig {
 
-    public static String apiKey = "";
-    public static String apiSecret = "";
-    public static String callbackUrl = "";
-    public static String accessToken = "";
-    public static String protectedResourceUrl[] = {""};
-    public static String autorizeUrl = "";
-    public static String tokenEndpoint = "";
+    public String getApiKey() {
+        return getEnviromentVariable("API_KEY");
+    }
+
+    public String getApiSecret() {
+        return getEnviromentVariable("API_SECRET");
+    }
+
+    public String getCallbackUrl() {
+        return getEnviromentVariable("CALLBACK_URL");
+    }
+
+    public String getAuthorizeUrl() {
+        return getEnviromentVariable("AUTHORIZE_URL");
+    }
+
+    public String getTokenEndpoint() {
+        return getEnviromentVariable("TOKEN_ENDPOINT");
+    }
+
+    public String getBaseUrl() {
+        return getEnviromentVariable("BASE_URL");
+    }
+
+    public String getAccessToken() {
+        return getEnviromentVariable("ACCESS_TOKEN");
+    }
+
+    private String getEnviromentVariable(String variableName) {
+        String value = System.getenv(variableName);
+        return value;
+    }
 }

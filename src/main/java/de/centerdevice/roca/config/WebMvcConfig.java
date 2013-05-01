@@ -87,15 +87,20 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     }
 
     @Bean
+    public CenterDeviceOAuthConfig getConfig() {
+        return new CenterDeviceOAuthConfig();
+    }
+
+    @Bean
     @Scope(value = "singleton")
     public OAuthService oauthService() {
+        CenterDeviceOAuthConfig config = getConfig();
+
         return new ServiceBuilder()
                 .provider(CenterDeviceProvider.class)
-                .apiKey(CenterDeviceOAuthConfig.apiKey)
-                .apiSecret(CenterDeviceOAuthConfig.apiSecret)
-                .callback(CenterDeviceOAuthConfig.callbackUrl)
-                .debugStream(System.out)
-                .debug()
+                .apiKey(config.getApiKey())
+                .apiSecret(config.getApiSecret())
+                .callback(config.getCallbackUrl())
                 .build();
     }
 
@@ -103,7 +108,6 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
     public OAuthAccessToken oauthAccessToken() {
         OAuthAccessToken accessToken = new OAuthAccessToken();
-        accessToken.setInDevelopmentMode(false);
 
         return accessToken;
     }
