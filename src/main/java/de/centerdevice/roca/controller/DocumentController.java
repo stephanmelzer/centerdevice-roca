@@ -68,8 +68,8 @@ public class DocumentController extends CenterDeviceController {
         return searchQuery;
     }
 
-    @RequestMapping(value = "/documents", method = RequestMethod.POST, headers = {"Accept=application/json"})
-    public void uploadFile(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException, ServletException {
+    @RequestMapping(value = "/documents/json", method = RequestMethod.POST)
+    public String uploadFile(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException, ServletException {
         InputStream inputStream = httpServletRequest.getInputStream();
         HttpRequest clientRequest = new HttpRequest();
         clientRequest.setBodyInputStream(inputStream);
@@ -79,7 +79,12 @@ public class DocumentController extends CenterDeviceController {
         HttpResponse centerdeviceResponse = centerdevice.uploadDocumentRaw(clientRequest);
         httpServletResponse.setStatus(centerdeviceResponse.getStatusCode());
 
-        copyStream(httpServletResponse.getOutputStream(), centerdeviceResponse.getBodyInputStream());
+        // only the single page application calls this method.
+        // Through a normal browser invoked form post request,
+        // the SPA is redirected to itself using the Origin header.
+        // TODO: In the future the SPA should make an XHR not a normal form post request.
+        String origin = httpServletRequest.getHeader("Origin");
+        return "redirect:" + origin;
     }
 
     @RequestMapping(value = "/documents", method = RequestMethod.POST)
