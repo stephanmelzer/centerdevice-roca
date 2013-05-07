@@ -14,10 +14,10 @@ public class OAuthAccessToken {
     }
 
     public String getAccessToken() {
-        if (config.getAccessToken() != null) {
-            //Only for development/testing purposes!
-            return config.getAccessToken();
-        }
+//        if (config.getAccessToken() != null) {
+//            //Only for development/testing purposes!
+//            return config.getAccessToken();
+//        }
 
         return accessToken;
     }

@@ -3,7 +3,7 @@
 <div>
     <a href="documents">${user.name}</a>
     <br/>
-    <a href="documents?groups=${globalGroup.id}">${globalGroup.name}</a>
+    <a class = "globalGroup" href="documents?groups=${globalGroup.id}">${globalGroup.name}</a>
     <br/>
     <c:forEach var="group" items="${user.groups}">
         <a class = "group" href="documents?groups=${group.id}">${group.name}</a>

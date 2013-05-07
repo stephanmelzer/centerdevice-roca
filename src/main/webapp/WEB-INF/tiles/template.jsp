@@ -28,6 +28,6 @@
         </div>
         <!-- End of page content -->
         <tiles:insertAttribute name="footer"  defaultValue="" />
-
+        <script src="resources/js/fileUpload.js"></script>
     </body>
 </html>

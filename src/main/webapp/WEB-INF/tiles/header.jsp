@@ -2,15 +2,10 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
 
-<div class="banner"></div>
-
 <header>
     <a href="logout">Logout</a>
 
-    <h1>
-        centerdevice - structure without directories
-        <img src="resources/img/cd_logo.png" alt="centerdevice Logo">
-    </h1>
+    <img src="resources/img/cd_logo.png" alt="centerdevice Logo">
 
     <form class="form-search" action="documents" method="GET">
         <input type="search"
@@ -21,9 +16,16 @@
         <button type="submit" class="btn btn-inverse">Search</button>
     </form>
 
-    <form action="documents" method="POST" enctype="multipart/form-data">
-        <input type="file" name="document">
-        <button type="submit" class="btn btn-inverse">Upload File</button>
+    <form class="form-upload" action="documents" method="POST" enctype="multipart/form-data">
+        <button id="newUploadButton" 
+                type="button"
+                style="visibility: hidden;" 
+                class="btn btn-inverse " 
+                onclick="selectFile()">Upload File</button>
+
+        <div id="fallback-input">
+            <input id="fileSelector" type="file" name="document">
+            <button id="uploadButton" type="submit" class="btn btn-inverse">Upload File</button>
+        </div>
     </form>
-    
 </header>
