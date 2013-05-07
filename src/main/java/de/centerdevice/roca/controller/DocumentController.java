@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class DocumentController extends CenterDeviceController {
@@ -69,7 +70,9 @@ public class DocumentController extends CenterDeviceController {
     }
 
     @RequestMapping(value = "/documents/json", method = RequestMethod.POST)
-    public String uploadFile(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException, ServletException {
+    public String uploadFile(HttpServletRequest httpServletRequest,
+            HttpServletResponse httpServletResponse,
+            @RequestParam(value = "redirect", required = false) String redirect) throws IOException, ServletException {
         InputStream inputStream = httpServletRequest.getInputStream();
         HttpRequest clientRequest = new HttpRequest();
         clientRequest.setBodyInputStream(inputStream);
@@ -83,8 +86,7 @@ public class DocumentController extends CenterDeviceController {
         // Through a normal browser invoked form post request,
         // the SPA is redirected to itself using the Origin header.
         // TODO: In the future the SPA should make an XHR not a normal form post request.
-        String origin = httpServletRequest.getHeader("Origin");
-        return "redirect:" + origin;
+        return "redirect:" + redirect;
     }
 
     @RequestMapping(value = "/documents", method = RequestMethod.POST)
