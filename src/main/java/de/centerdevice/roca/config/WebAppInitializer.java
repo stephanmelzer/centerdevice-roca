@@ -3,6 +3,7 @@ package de.centerdevice.roca.config;
 import java.util.*;
 
 import javax.servlet.*;
+import org.eclipse.jetty.servlets.GzipFilter;
 
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
@@ -28,6 +29,8 @@ public class WebAppInitializer implements WebApplicationInitializer {
 
         // register CORS filter
         servletContext.addFilter("corsFilter", CorsFilter.class).addMappingForUrlPatterns(null, false, "/*");
+
+        servletContext.addFilter("gzipFilter", GzipFilter.class).addMappingForUrlPatterns(null, false, "/*");
 
         DispatcherServlet servlet = new DispatcherServlet();
         // no explicit configuration reference here: everything is configured in the root container for simplicity
