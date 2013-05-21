@@ -17,7 +17,7 @@
                 </a>
 
                 <div class="summary">
-                    <span class="author">${document.owner.name}</span>
+                    <span class="author">${document.owner.nameHtmlEscaped}</span>
                     <time datetime="${document.html5Uploaddate}">${document.formatedUploaddate}</time>
                     <span class="filesize">${document.formatedSize}</span>
                 </div>
