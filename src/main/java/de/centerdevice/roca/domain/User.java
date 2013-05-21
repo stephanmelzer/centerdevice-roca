@@ -1,6 +1,7 @@
 package de.centerdevice.roca.domain;
 
 import java.util.List;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 public class User {
@@ -40,6 +41,10 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    public String getNameHtmlEscaped() {
+        return StringEscapeUtils.escapeHtml4(name);
     }
 
     public void setName(String name) {
