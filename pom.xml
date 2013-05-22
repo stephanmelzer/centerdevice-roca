@@ -140,8 +140,8 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>${org.springframework-version}</version>
-            <scope>test</scope>
+            <version>3.2.0.RELEASE</version>
+            <type>jar</type>
         </dependency>
         <!-- Scribe OAuth library -->
         <dependency>
@@ -160,11 +160,12 @@
             <artifactId>jetty-servlets</artifactId>
             <version>8.1.9.v20130131</version>
         </dependency>
+        
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.1</version>
-        </dependency>            
+        </dependency>      
     </dependencies>            
     <build>
         <plugins> 

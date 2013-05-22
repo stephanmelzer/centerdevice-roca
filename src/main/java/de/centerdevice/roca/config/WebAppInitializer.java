@@ -31,6 +31,8 @@ public class WebAppInitializer implements WebApplicationInitializer {
         servletContext.addFilter("corsFilter", CorsFilter.class).addMappingForUrlPatterns(null, false, "/*");
 
         servletContext.addFilter("gzipFilter", GzipFilter.class).addMappingForUrlPatterns(null, false, "/*");
+        servletContext.addFilter("filter", ResponseLoggingFilter.class).addMappingForUrlPatterns(null, false, "/*");
+
 
         DispatcherServlet servlet = new DispatcherServlet();
         // no explicit configuration reference here: everything is configured in the root container for simplicity
@@ -44,5 +46,6 @@ public class WebAppInitializer implements WebApplicationInitializer {
         if (!mappingConflicts.isEmpty()) {
             throw new IllegalStateException("'appServlet' cannot be mapped to '/' under Tomcat versions <= 7.0.14");
         }
+
     }
 }
