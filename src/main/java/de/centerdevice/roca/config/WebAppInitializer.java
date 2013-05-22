@@ -31,7 +31,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
         servletContext.addFilter("corsFilter", CorsFilter.class).addMappingForUrlPatterns(null, false, "/*");
 
         servletContext.addFilter("gzipFilter", GzipFilter.class).addMappingForUrlPatterns(null, false, "/*");
-        servletContext.addFilter("filter", ResponseLoggingFilter.class).addMappingForUrlPatterns(null, false, "/*");
+        //servletContext.addFilter("filter", ResponseLoggingFilter.class).addMappingForUrlPatterns(null, false, "/*");
 
 
         DispatcherServlet servlet = new DispatcherServlet();
