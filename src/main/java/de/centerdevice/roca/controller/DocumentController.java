@@ -101,15 +101,4 @@ public class DocumentController extends CenterDeviceController {
 
         return "redirect:documents";
     }
-
-    @RequestMapping(value = "/document/{documentId}/flash", method = RequestMethod.GET)
-    public void getFlashRepresentation(HttpServletResponse httpServletResponse, @PathVariable String documentId) throws IOException {
-        HttpMessage centerDeviceResponse = centerdevice.getDocumentAsFlash(documentId);
-
-        setHttpStatusCode(httpServletResponse, centerDeviceResponse);
-        setHttpHeaders(httpServletResponse, centerDeviceResponse);
-        copyStream(httpServletResponse.getOutputStream(), centerDeviceResponse.getBodyInputStream());
-
-        centerDeviceResponse.getBodyInputStream().close();
-    }
 }
