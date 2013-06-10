@@ -2,7 +2,7 @@ package de.centerdevice.roca.controller;
 
 import de.centerdevice.roca.centerdevice.CenterDeviceService;
 import de.centerdevice.roca.centerdevice.CenterDeviceServiceStub;
-import de.centerdevice.roca.centerdevice.HttpResponse;
+import de.centerdevice.roca.centerdevice.HttpMessage;
 import de.centerdevice.roca.oauth.OAuthAccessToken;
 import java.io.InputStream;
 import javax.servlet.ServletContext;
@@ -44,7 +44,7 @@ public class GroupControllerTest {
     public void setUp() {
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
         centerDeviceServiceStub = (CenterDeviceServiceStub) centerDeviceService;
-        centerDeviceServiceStub.setHttpResponse(null);
+        centerDeviceServiceStub.setHttpMessage(null);
     }
 
     @Test
@@ -70,9 +70,9 @@ public class GroupControllerTest {
     @Test
     public void groupNotFoundTest() throws Exception {
         String groupId = "123";
-        HttpResponse responseStub = new HttpResponse();
+        HttpMessage responseStub = new HttpMessage();
         responseStub.setStatusCode(404);
-        centerDeviceServiceStub.setHttpResponse(responseStub);
+        centerDeviceServiceStub.setHttpMessage(responseStub);
 
         mockMvc.perform(post("/group/" + groupId))
                 .andExpect(status().isNotFound())

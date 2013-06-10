@@ -7,18 +7,31 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HttpRequest {
+public class HttpMessage {
 
-    private Map<String, String> headers;
-    private InputStream bodyInputStream;
+    private int statusCode;
+    protected Map<String, String> headers;
+    protected InputStream bodyInputStream;
 
-    public HttpRequest() {
-        this.headers = new HashMap<String, String>();
+    public HttpMessage() {
         this.bodyInputStream = new ByteArrayInputStream("Default InputStream".getBytes());
+        this.headers = new HashMap<>();
+    }
+
+    public int getStatusCode() {
+        return statusCode;
     }
 
     public Map<String, String> getHeaders() {
         return headers;
+    }
+
+    public InputStream getBodyInputStream() {
+        return bodyInputStream;
+    }
+
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
     }
 
     public void setHeader(String key, String value) {
@@ -29,24 +42,18 @@ public class HttpRequest {
         this.headers = headers;
     }
 
-    public InputStream getBodyInputStream() {
-        return bodyInputStream;
-    }
-
     public void setBodyInputStream(InputStream bodyInputStream) {
         this.bodyInputStream = bodyInputStream;
     }
 
     public String getBodyAsString() throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         byte[] buffer = new byte[16384];
         int bytesRead;
-
         while ((bytesRead = bodyInputStream.read(buffer)) != -1) {
-            baos.write(buffer, 0, bytesRead);
+            outputStream.write(buffer, 0, bytesRead);
         }
-        baos.flush();
-
-        return baos.toString();
+        outputStream.flush();
+        return outputStream.toString();
     }
 }

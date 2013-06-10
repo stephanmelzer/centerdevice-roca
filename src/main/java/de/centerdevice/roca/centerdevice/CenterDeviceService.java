@@ -17,23 +17,23 @@ public interface CenterDeviceService {
     // Documents
     List<Document> getDocuments(String searchQuery) throws IOException;
 
-    HttpResponse getDocumentsRaw(String searchQuery);
+    HttpMessage getDocumentsRaw(String searchQuery);
 
-    HttpResponse getDocumentRaw(String uuid);
+    HttpMessage getDocumentRaw(String uuid);
 
-    HttpResponse getDocumentAsFlash(String uuid);
+    HttpMessage getDocumentAsFlash(String uuid);
 
     String getAuthorizationUrl();
 
-    HttpResponse uploadDocumentRaw(HttpRequest clientRequest);
+    HttpMessage uploadDocumentRaw(HttpMessage clientRequest);
 
     // Groups
-    HttpResponse getAllGroupsRaw();
+    HttpMessage getAllGroupsRaw();
 
-    HttpResponse joinGroupRaw(String groupId);
+    HttpMessage joinGroupRaw(String groupId);
 
     // User information
     User getUserInformation(String searchQuery) throws IOException;
 
-    HttpResponse getUserInformationRaw(String searchQuery);
+    HttpMessage getUserInformationRaw(String searchQuery);
 }

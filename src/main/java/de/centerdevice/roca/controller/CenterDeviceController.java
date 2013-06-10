@@ -1,7 +1,7 @@
 package de.centerdevice.roca.controller;
 
 import de.centerdevice.roca.centerdevice.CenterDeviceService;
-import de.centerdevice.roca.centerdevice.HttpResponse;
+import de.centerdevice.roca.centerdevice.HttpMessage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -24,7 +24,7 @@ public abstract class CenterDeviceController {
         output.flush();
     }
 
-    protected void setHttpHeaders(HttpServletResponse httpServletResponse, HttpResponse centerDeviceResponse) {
+    protected void setHttpHeaders(HttpServletResponse httpServletResponse, HttpMessage centerDeviceResponse) {
         String[] allowedHeaders = {"Content-Encoding",
             "Content-Language",
             "Content-Length",
@@ -48,7 +48,7 @@ public abstract class CenterDeviceController {
         }
     }
 
-    protected void setHttpStatusCode(HttpServletResponse httpServletResponse, HttpResponse centerDeviceResponse) {
+    protected void setHttpStatusCode(HttpServletResponse httpServletResponse, HttpMessage centerDeviceResponse) {
         httpServletResponse.setStatus(centerDeviceResponse.getStatusCode());
     }
 }

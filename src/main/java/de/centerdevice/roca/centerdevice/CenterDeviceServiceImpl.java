@@ -39,7 +39,7 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
 
     @Override
     public List<Document> getDocuments(String searchQuery) throws IOException {
-        HttpResponse response = getDocumentsRaw(searchQuery);
+        HttpMessage response = getDocumentsRaw(searchQuery);
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -57,24 +57,23 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
     }
 
     @Override
-    public HttpResponse getDocumentsRaw(String searchQuery) {
+    public HttpMessage getDocumentsRaw(String searchQuery) {
         OAuthRequest request = new OAuthRequest(Verb.GET, config.getBaseUrl() + "/documents?" + searchQuery);
         return getResource(request);
     }
 
     @Override
-    public HttpResponse getDocumentRaw(String uuid) {
+    public HttpMessage getDocumentRaw(String uuid) {
         OAuthRequest centerDeviceRequest = new OAuthRequest(Verb.GET, config.getBaseUrl() + "/document/" + uuid);
         return getResource(centerDeviceRequest);
     }
 
-    private HttpResponse getResource(OAuthRequest centerDeviceRequest) {
+    private HttpMessage getResource(OAuthRequest centerDeviceRequest) {
         Token token = new Token(accessToken.getAccessToken(), config.getApiSecret());
         service.signRequest(token, centerDeviceRequest);
         Response centerDeviceResponse = centerDeviceRequest.send();
 
-        //create HttpResponse object
-        HttpResponse httpResponse = new HttpResponse();
+        HttpMessage httpResponse = new HttpMessage();
         httpResponse.setStatusCode(centerDeviceResponse.getCode());
         httpResponse.setHeaders(centerDeviceResponse.getHeaders());
         httpResponse.setBodyInputStream(centerDeviceResponse.getStream());
@@ -107,7 +106,7 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
     }
 
     @Override
-    public HttpResponse joinGroupRaw(String groupId) {
+    public HttpMessage joinGroupRaw(String groupId) {
         OAuthRequest centerDeviceRequest = new OAuthRequest(Verb.POST, config.getBaseUrl() + "/group/" + groupId);
 
         centerDeviceRequest.addHeader("Content-Type", "application/json; charset=UTF-8");
@@ -117,14 +116,14 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
     }
 
     @Override
-    public HttpResponse getAllGroupsRaw() {
+    public HttpMessage getAllGroupsRaw() {
         OAuthRequest centerDeviceRequest = new OAuthRequest(Verb.GET, config.getBaseUrl() + "/group/");
         return getResource(centerDeviceRequest);
     }
 
     @Override
-    public HttpResponse uploadDocumentRaw(HttpRequest clientRequest) {
-        HttpResponse centerdeviceResponse = new HttpResponse();
+    public HttpMessage uploadDocumentRaw(HttpMessage clientRequest) {
+        HttpMessage centerdeviceResponse = new HttpMessage();
         try {
             URL url = new URL(config.getBaseUrl() + "/documents");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -167,7 +166,7 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
 
     @Override
     public User getUserInformation(String searchQuery) throws IOException {
-        HttpResponse response = getUserInformationRaw(searchQuery);
+        HttpMessage response = getUserInformationRaw(searchQuery);
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -177,12 +176,12 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
     }
 
     @Override
-    public HttpResponse getUserInformationRaw(String searchQuery) {
+    public HttpMessage getUserInformationRaw(String searchQuery) {
         OAuthRequest request = new OAuthRequest(Verb.GET, config.getBaseUrl() + "/user?" + searchQuery);
         return getResource(request);
     }
 
-    private String extractBoundary(HttpRequest clientRequest) {
+    private String extractBoundary(HttpMessage clientRequest) {
         String contentType = clientRequest.getHeaders().get("Content-Type");
         String[] contentTypeValues = contentType.split(";");
         String boundary = "";
@@ -260,7 +259,7 @@ public class CenterDeviceServiceImpl implements CenterDeviceService {
     }
 
     @Override
-    public HttpResponse getDocumentAsFlash(String uuid) {
+    public HttpMessage getDocumentAsFlash(String uuid) {
         OAuthRequest centerDeviceRequest = new OAuthRequest(Verb.GET, config.getBaseUrl() + "/document/" + uuid);
         centerDeviceRequest.addHeader("Accept", "application/x-shockwave-flash");
         return getResource(centerDeviceRequest);

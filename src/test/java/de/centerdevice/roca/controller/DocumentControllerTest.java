@@ -2,7 +2,7 @@ package de.centerdevice.roca.controller;
 
 import de.centerdevice.roca.centerdevice.CenterDeviceService;
 import de.centerdevice.roca.centerdevice.CenterDeviceServiceStub;
-import de.centerdevice.roca.centerdevice.HttpResponse;
+import de.centerdevice.roca.centerdevice.HttpMessage;
 import de.centerdevice.roca.oauth.OAuthAccessToken;
 import javax.servlet.ServletContext;
 import org.junit.Before;
@@ -41,7 +41,7 @@ public class DocumentControllerTest {
     public void setUp() {
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
         centerDeviceServiceStub = (CenterDeviceServiceStub) centerDeviceService;
-        centerDeviceServiceStub.setHttpResponse(null);
+        centerDeviceServiceStub.setHttpMessage(null);
     }
 
     @Test
@@ -58,9 +58,9 @@ public class DocumentControllerTest {
     @Test
     public void downloadDocumentNotLoggedInTest() throws Exception {
         String documentId = "123";
-        HttpResponse responseStub = new HttpResponse();
+        HttpMessage responseStub = new HttpMessage();
         responseStub.setStatusCode(401);
-        centerDeviceServiceStub.setHttpResponse(responseStub);
+        centerDeviceServiceStub.setHttpMessage(responseStub);
 
         mockMvc.perform(get("/document/" + documentId))
                 .andExpect(status().isUnauthorized())

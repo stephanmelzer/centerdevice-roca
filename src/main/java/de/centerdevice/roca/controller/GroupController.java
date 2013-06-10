@@ -1,6 +1,6 @@
 package de.centerdevice.roca.controller;
 
-import de.centerdevice.roca.centerdevice.HttpResponse;
+import de.centerdevice.roca.centerdevice.HttpMessage;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,7 @@ public class GroupController extends CenterDeviceController {
 
     @RequestMapping(value = "/group/{groupId}", method = RequestMethod.POST)
     public void joinGroup(HttpServletResponse httpServletResponse, @PathVariable String groupId) throws IOException {
-        HttpResponse centerDeviceResponse = centerdevice.joinGroupRaw(groupId);
+        HttpMessage centerDeviceResponse = centerdevice.joinGroupRaw(groupId);
 
         setHttpStatusCode(httpServletResponse, centerDeviceResponse);
         setHttpHeaders(httpServletResponse, centerDeviceResponse);
@@ -21,7 +21,7 @@ public class GroupController extends CenterDeviceController {
 
     @RequestMapping(value = "/groups", method = RequestMethod.GET, headers = {"Accept=application/json"})
     public void getAllGroupsAsJson(HttpServletResponse httpServletResponse) throws IOException {
-        HttpResponse centerDeviceResponse = centerdevice.getAllGroupsRaw();
+        HttpMessage centerDeviceResponse = centerdevice.getAllGroupsRaw();
 
         setHttpStatusCode(httpServletResponse, centerDeviceResponse);
         setHttpHeaders(httpServletResponse, centerDeviceResponse);

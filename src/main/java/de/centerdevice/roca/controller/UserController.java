@@ -1,6 +1,6 @@
 package de.centerdevice.roca.controller;
 
-import de.centerdevice.roca.centerdevice.HttpResponse;
+import de.centerdevice.roca.centerdevice.HttpMessage;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +13,7 @@ public class UserController extends CenterDeviceController {
 
     @RequestMapping(value = "/user", method = RequestMethod.GET, headers = {"Accept=application/json"})
     public void getUserInformation(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
-        HttpResponse centerDeviceResponse = centerdevice.getUserInformationRaw(getSearchQuery(httpServletRequest));
+        HttpMessage centerDeviceResponse = centerdevice.getUserInformationRaw(getSearchQuery(httpServletRequest));
 
         setHttpStatusCode(httpServletResponse, centerDeviceResponse);
         setHttpHeaders(httpServletResponse, centerDeviceResponse);

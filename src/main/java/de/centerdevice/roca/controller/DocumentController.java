@@ -1,7 +1,7 @@
 package de.centerdevice.roca.controller;
 
-import de.centerdevice.roca.centerdevice.HttpRequest;
-import de.centerdevice.roca.centerdevice.HttpResponse;
+import de.centerdevice.roca.centerdevice.HttpMessage;
+import de.centerdevice.roca.centerdevice.HttpMessage;
 import de.centerdevice.roca.domain.Document;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +39,7 @@ public class DocumentController extends CenterDeviceController {
 
     @RequestMapping(value = "/documents", method = RequestMethod.GET, headers = {"Accept=application/json"})
     public void getDocumentsAsJson(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
-        HttpResponse centerDeviceResponse = centerdevice.getDocumentsRaw(getSearchQuery(httpServletRequest));
+        HttpMessage centerDeviceResponse = centerdevice.getDocumentsRaw(getSearchQuery(httpServletRequest));
 
         setHttpStatusCode(httpServletResponse, centerDeviceResponse);
         setHttpHeaders(httpServletResponse, centerDeviceResponse);
@@ -50,7 +50,7 @@ public class DocumentController extends CenterDeviceController {
 
     @RequestMapping(value = "/document/{documentId}", method = RequestMethod.GET)
     public void downloadDocument(HttpServletResponse httpServletResponse, @PathVariable String documentId) throws IOException {
-        HttpResponse centerDeviceResponse = centerdevice.getDocumentRaw(documentId);
+        HttpMessage centerDeviceResponse = centerdevice.getDocumentRaw(documentId);
 
         setHttpStatusCode(httpServletResponse, centerDeviceResponse);
         setHttpHeaders(httpServletResponse, centerDeviceResponse);
@@ -74,12 +74,12 @@ public class DocumentController extends CenterDeviceController {
             HttpServletResponse httpServletResponse,
             @RequestParam(value = "redirect", required = false) String redirect) throws IOException, ServletException {
         InputStream inputStream = httpServletRequest.getInputStream();
-        HttpRequest clientRequest = new HttpRequest();
+        HttpMessage clientRequest = new HttpMessage();
         clientRequest.setBodyInputStream(inputStream);
         String contentTypeHeader = "Content-Type";
         clientRequest.setHeader(contentTypeHeader, httpServletRequest.getHeader(contentTypeHeader));
 
-        HttpResponse centerdeviceResponse = centerdevice.uploadDocumentRaw(clientRequest);
+        HttpMessage centerdeviceResponse = centerdevice.uploadDocumentRaw(clientRequest);
         httpServletResponse.setStatus(centerdeviceResponse.getStatusCode());
 
         // only the single page application calls this method.
@@ -92,7 +92,7 @@ public class DocumentController extends CenterDeviceController {
     @RequestMapping(value = "/documents", method = RequestMethod.POST)
     public String uploadFileJson(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException, ServletException {
         InputStream inputStream = httpServletRequest.getInputStream();
-        HttpRequest clientRequest = new HttpRequest();
+        HttpMessage clientRequest = new HttpMessage();
         clientRequest.setBodyInputStream(inputStream);
         String contentTypeHeader = "Content-Type";
         clientRequest.setHeader(contentTypeHeader, httpServletRequest.getHeader(contentTypeHeader));
@@ -104,7 +104,7 @@ public class DocumentController extends CenterDeviceController {
 
     @RequestMapping(value = "/document/{documentId}/flash", method = RequestMethod.GET)
     public void getFlashRepresentation(HttpServletResponse httpServletResponse, @PathVariable String documentId) throws IOException {
-        HttpResponse centerDeviceResponse = centerdevice.getDocumentAsFlash(documentId);
+        HttpMessage centerDeviceResponse = centerdevice.getDocumentAsFlash(documentId);
 
         setHttpStatusCode(httpServletResponse, centerDeviceResponse);
         setHttpHeaders(httpServletResponse, centerDeviceResponse);

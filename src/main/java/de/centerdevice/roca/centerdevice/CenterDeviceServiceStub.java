@@ -19,9 +19,9 @@ public class CenterDeviceServiceStub implements CenterDeviceService {
     private ServletContext servletContext;
     @Autowired
     private OAuthAccessToken accessToken;
-    private HttpResponse httpResponse;
+    private HttpMessage httpResponse;
 
-    public void setHttpResponse(HttpResponse httpResponse) {
+    public void setHttpMessage(HttpMessage httpResponse) {
         this.httpResponse = httpResponse;
     }
 
@@ -31,7 +31,7 @@ public class CenterDeviceServiceStub implements CenterDeviceService {
 
     @Override
     public List<Document> getDocuments(String searchQuery) throws IOException {
-        HttpResponse response = getDocumentsRaw(searchQuery);
+        HttpMessage response = getDocumentsRaw(searchQuery);
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -46,8 +46,8 @@ public class CenterDeviceServiceStub implements CenterDeviceService {
     }
 
     @Override
-    public HttpResponse getDocumentsRaw(String searchQuery) {
-        HttpResponse responseStub = new HttpResponse();
+    public HttpMessage getDocumentsRaw(String searchQuery) {
+        HttpMessage responseStub = new HttpMessage();
         responseStub.setStatusCode(200);
 
         InputStream documentsStreamStub = servletContext.getResourceAsStream("/WEB-INF/stubs/documents.json");
@@ -57,14 +57,14 @@ public class CenterDeviceServiceStub implements CenterDeviceService {
     }
 
     @Override
-    public HttpResponse getDocumentRaw(String uuid) {
+    public HttpMessage getDocumentRaw(String uuid) {
         if (this.httpResponse != null) {
             return this.httpResponse;
         }
 
         InputStream documentFileStreamStub = servletContext.getResourceAsStream("/WEB-INF/stubs/documentFileStub.txt");
 
-        HttpResponse responseStub = new HttpResponse();
+        HttpMessage responseStub = new HttpMessage();
         responseStub.setStatusCode(200);
         responseStub.setHeader("Content-Type", "text/plain; charset=utf-8");
         responseStub.setHeader("Content-Disposition", "attachment; filename=\"documentFileStub.txt\"");
@@ -100,24 +100,24 @@ public class CenterDeviceServiceStub implements CenterDeviceService {
     }
 
     @Override
-    public HttpResponse joinGroupRaw(String groupId) {
+    public HttpMessage joinGroupRaw(String groupId) {
         if (this.httpResponse != null) {
             return this.httpResponse;
         }
 
-        HttpResponse responseStub = new HttpResponse();
+        HttpMessage responseStub = new HttpMessage();
         responseStub.setStatusCode(204);
 
         return responseStub;
     }
 
     @Override
-    public HttpResponse getAllGroupsRaw() {
+    public HttpMessage getAllGroupsRaw() {
         if (this.httpResponse != null) {
             return this.httpResponse;
         }
 
-        HttpResponse responseStub = new HttpResponse();
+        HttpMessage responseStub = new HttpMessage();
         responseStub.setStatusCode(200);
         responseStub.setHeader("Content-Type", "application/json");
 
@@ -129,7 +129,7 @@ public class CenterDeviceServiceStub implements CenterDeviceService {
 
     @Override
     public User getUserInformation(String searchQuery) throws IOException {
-        HttpResponse response = getUserInformationRaw(searchQuery);
+        HttpMessage response = getUserInformationRaw(searchQuery);
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -139,12 +139,12 @@ public class CenterDeviceServiceStub implements CenterDeviceService {
     }
 
     @Override
-    public HttpResponse getUserInformationRaw(String searchQuery) {
+    public HttpMessage getUserInformationRaw(String searchQuery) {
         if (this.httpResponse != null) {
             return this.httpResponse;
         }
 
-        HttpResponse responseStub = new HttpResponse();
+        HttpMessage responseStub = new HttpMessage();
         responseStub.setStatusCode(200);
         responseStub.setHeader("Content-Type", "application/json");
 
@@ -155,8 +155,8 @@ public class CenterDeviceServiceStub implements CenterDeviceService {
     }
 
     @Override
-    public HttpResponse uploadDocumentRaw(HttpRequest clientRequest) {
-        HttpResponse responseStub = new HttpResponse();
+    public HttpMessage uploadDocumentRaw(HttpMessage clientRequest) {
+        HttpMessage responseStub = new HttpMessage();
         responseStub.setStatusCode(201);
         responseStub.setHeader("Location", "centerdevice.de/document/123-abc");
 
@@ -167,7 +167,7 @@ public class CenterDeviceServiceStub implements CenterDeviceService {
     }
 
     @Override
-    public HttpResponse getDocumentAsFlash(String documentId) {
+    public HttpMessage getDocumentAsFlash(String documentId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
